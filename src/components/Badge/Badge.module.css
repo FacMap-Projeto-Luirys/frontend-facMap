@@ -1,0 +1,31 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.purple {
+  background: var(--purple-muted);
+  color: var(--purple);
+}
+.cyan {
+  background: var(--cyan-light);
+  color: var(--cyan);
+}
+.green {
+  background: var(--green-light);
+  color: var(--green);
+}
+.orange {
+  background: var(--orange-light);
+  color: var(--orange);
+}
+.navy {
+  background: #e8eef5;
+  color: var(--navy);
+}
