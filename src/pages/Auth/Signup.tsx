@@ -42,7 +42,7 @@ export function Signup() {
   return (
     <AuthLayout
       title="Crie sua conta"
-      subtitle="Leva menos de um minuto. Depois, a avaliação leva cerca de 5 minutos."
+      subtitle="Para alunos de Sistemas de Informação da FACAPE. A conta leva menos de um minuto e a avaliação, cerca de 5."
       footer={
         <>
           Já tem uma conta? <Link to={ROUTES.login}>Entrar</Link>
@@ -80,7 +80,7 @@ export function Signup() {
             label="Senha"
             type="password"
             icon="lock"
-            placeholder="Mínimo de 6 caracteres"
+            placeholder="6 ou mais caracteres"
             autoComplete="new-password"
             value={fields.password}
             onValueChange={set("password")}

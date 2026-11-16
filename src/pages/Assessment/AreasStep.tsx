@@ -15,7 +15,7 @@ export function AreasStep() {
     <AssessmentLayout
       step={2}
       title="Conheça as áreas antes de escolher"
-      subtitle="Selecione um caminho e veja um exemplo de atividade."
+      subtitle="Selecione um caminho e veja uma situação real da FACAPE nessa área."
       actions={
         <>
           <Button variant="ghost" to={ROUTES.profile}>

@@ -15,9 +15,9 @@ export function AuthLayout({ title, subtitle, children, footer }: Props) {
         <Logo inverted />
         <div className={s.brandBody}>
           <h2>
-            Descubra por onde <span>começar em TI</span>
+            Orientação para <span>alunos da FACAPE</span>
           </h2>
-          <p>Seus interesses, sua rotina e o que você aprende na FACAPE transformados em próximos passos possíveis.</p>
+          <p>Para alunos de Sistemas de Informação da FACAPE: seus interesses, sua rotina e o que você vê nas aulas viram um plano ligado aos estágios da faculdade.</p>
           <ul className={s.brandList}>
             {BENEFITS.map((b) => (
               <li key={b.title} style={accent(b.color)}>
@@ -40,7 +40,7 @@ export function AuthLayout({ title, subtitle, children, footer }: Props) {
           <Logo className={s.mobileLogo} />
           <Link to={ROUTES.home} className={s.backLink}>
             <Icon name="chevronLeft" size={16} />
-            Voltar ao início
+            Voltar à página inicial
           </Link>
         </div>
 
