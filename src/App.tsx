@@ -1,7 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { AssessmentProvider, useAssessment } from "./context/AssessmentContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import { Landing } from "./pages/Landing/Landing";
 import { Login } from "./pages/Auth/Login";
 import { Signup } from "./pages/Auth/Signup";
 import { ProfileStep } from "./pages/Assessment/ProfileStep";
@@ -9,6 +8,14 @@ import { AreasStep } from "./pages/Assessment/AreasStep";
 import { ResultStep } from "./pages/Assessment/ResultStep";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { navigate, ROUTES, usePath } from "./router";
+
+/** A landing é uma página estática (index.html); o app vive em app.html. */
+function GoToLanding() {
+  useEffect(() => {
+    window.location.replace(import.meta.env.BASE_URL);
+  }, []);
+  return null;
+}
 
 function Redirect({ to }: { to: string }) {
   useEffect(() => {
@@ -28,7 +35,7 @@ function Routes() {
 
   switch (path) {
     case ROUTES.home:
-      return <Landing />;
+      return <GoToLanding />;
     case ROUTES.login:
       return guestOnly(<Login />);
     case ROUTES.signup:

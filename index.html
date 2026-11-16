@@ -1,16 +1,501 @@
 <!doctype html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="FacMap — orientação de carreira em TI para estudantes da FACAPE." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <title>FacMap · Orientação de carreira em TI</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="pt-BR" data-type="software" data-radius="soft" data-ground="sand" data-buttons="pill" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FacMap: orientação para alunos de Sistemas de Informação da FACAPE</title>
+<meta name="description" content="Uma avaliação de 5 minutos para quem cursa Sistemas de Informação na FACAPE descobrir sua área e montar um plano ligado aos estágios da faculdade.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FacMap: orientação para alunos de Sistemas de Informação da FACAPE">
+<meta property="og:description" content="Descubra qual caminho do curso combina com você e quais núcleos, estágios e projetos da FACAPE procurar.">
+<meta property="og:image" content="share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link vite-ignore rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f8f8f8">
+<!-- <link rel="canonical" href="https://[domínio do FacMap]/"> -->
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link vite-ignore rel="stylesheet" href="assets/system.css">
+<link vite-ignore rel="stylesheet" href="assets/ui/cards.css">
+<link vite-ignore rel="stylesheet" href="assets/motion/motion.css">
+<link vite-ignore rel="stylesheet" href="assets/backgrounds/backgrounds.css">
+<link vite-ignore rel="stylesheet" href="assets/layout/layout.css">
+<link vite-ignore rel="stylesheet" href="assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #f8f8f8; --p-surface: #eeeeee; --p-ink: #0a0a0a; --p-muted: #6a6a6a;
+  --p-accent: #1f6b3a; --p-accent-ink: #ffffff; --p-action: #1f6b3a; --p-action-ink: #ffffff;
+  --p-inv-bg: #0a0a0a; --p-inv-surface: #171717; --p-inv-ink: #f8f8f8; --p-inv-muted: #939393;
+  --p-inv-accent: #1f6b3a; --p-inv-accent-ink: #ffffff; --p-inv-action: #1f6b3a; --p-inv-action-ink: #ffffff;
+  --font-display: "Instrument Sans", system-ui, sans-serif;
+  --font-text: "Instrument Sans", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.028em;
+  --display-tracking-xl: -0.036em;
+  --display-stretch: 96%;
+  --ly-scale: 1.04;
+}
+</style>
+<link vite-ignore rel="stylesheet" href="assets/ui/base.css">
+<link vite-ignore rel="stylesheet" href="assets/ui/window/fragment.css">
+<link vite-ignore rel="stylesheet" href="assets/ui/checklist/fragment.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script vite-ignore src="assets/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link vite-ignore rel="modulepreload" href="assets/moments/moments.js">
+<link vite-ignore rel="modulepreload" href="assets/moments/lib.js">
+<link vite-ignore rel="modulepreload" href="assets/moments/pinned-chapters/moment.js">
+<!-- page CSS: only what sits inside a visual (the FacMap screens drawn in HTML) and the app-frame recipe -->
+<style>
+  /* the FacMap window: one light app window, used in the hero and in the steps */
+  .fm-win { background: #fff; color: #16181a; border-radius: 12px; overflow: hidden; font: 400 14px/1.45 var(--font-text);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / .08), 0 30px 70px -30px rgb(0 0 0 / .35); text-align: left; }
+  .fm-win__bar { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 14px; border-bottom: 1px solid rgb(0 0 0 / .07); font-size: 13px; color: #5d6268; }
+  .fm-win__bar b { color: #16181a; font-weight: 500; }
+  .fm-win__bar .sp { flex: 1; }
+  .fm-dots { display: flex; gap: 6px; } .fm-dots i { width: 10px; height: 10px; border-radius: 50%; background: #dcdfe2; }
+  .fm-win__body { display: grid; grid-template-columns: 220px 1fr; min-height: 420px; }
+  .fm-side { border-right: 1px solid rgb(0 0 0 / .07); padding: 14px 10px; display: grid; align-content: start; gap: 2px; }
+  .fm-side__t { padding: 0 10px 8px; font-size: 13px; color: #6a6e73; }
+  .fm-side__s { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 9px; font-size: 13px; color: #3d4247; }
+  .fm-side__s i { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 500 13px/1 var(--font-text); font-style: normal; background: #eceeec; color: #3d4247; }
+  .fm-side__s.is-done i { background: var(--p-accent); color: #fff; }
+  .fm-side__s.is-on { background: #eef3ef; color: #16181a; font-weight: 500; }
+  .fm-side__s.is-on i { background: #16181a; color: #fff; }
+  .fm-main { padding: 18px 20px; display: grid; align-content: start; gap: 12px; min-width: 0; }
+  .fm-q { font-size: 15px; font-weight: 500; color: #16181a; }
+  .fm-q small { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 400; color: #6a6e73; }
+  .fm-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .fm-opt { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; border: 1px solid rgb(0 0 0 / .1); font-size: 13px; color: #3d4247; }
+  .fm-opt::before { content: ""; flex: none; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid #b9bdc1; }
+  .fm-opt.is-on { border-color: var(--p-accent); background: #eef5f0; color: #16181a; }
+  .fm-opt.is-on::before { border: 4px solid var(--p-accent); }
+  .fm-tool { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #6a6e73; }
+  .fm-tool::before { content: ""; width: 12px; height: 12px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; }
+  .fm-res { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 4px 12px; padding: 12px 14px; border-radius: 12px; background: #f3f5f3; }
+  .fm-res__ic { grid-row: span 2; width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: #dcebe1; color: var(--p-accent); font: 500 13px/1 var(--font-mono); }
+  .fm-res b { font-weight: 500; color: #16181a; } .fm-res span { font-size: 13px; color: #6a6e73; }
+  .fm-res em { grid-row: span 2; font: 500 22px/1 var(--font-display); font-style: normal; color: var(--p-accent); letter-spacing: -0.02em; }
+  .fm-bar { height: 6px; border-radius: 99px; background: #e4e7e4; overflow: hidden; } .fm-bar i { display: block; height: 100%; width: var(--w); background: var(--c, var(--p-accent)); border-radius: inherit; }
+  .fm-acts { display: flex; gap: 8px; } .fm-acts span { height: 30px; padding: 0 12px; border-radius: 99px; display: inline-flex; align-items: center; font-size: 13px; font-weight: 500; background: var(--p-accent); color: #fff; }
+  .fm-acts span + span { background: #eceeec; color: #16181a; }
+  .hero__window .fm-win__body { min-height: 380px; }
+  @media (max-width: 1279px) {
+    .hero__window .fm-main { padding: 14px 18px; gap: 8px; }
+    .hero__window .fm-opt { padding: 7px 12px; }
+    .hero__window .fm-res span { display: none; }
+  }
+  /* tablet: one area card per row (sections-library, features-2x2), panels sized so each group fills its screen */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    #areas .grid > .card { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--s-5); align-content: start; }
+    #areas .grid > .card > :not(.panel) { grid-column: 1; }
+    #areas .grid > .card > .panel { grid-column: 2; grid-row: 1 / span 3; margin: 0; }
+    #areas .grid .panel { --p-h: calc((100svh - 400px) / 2); }
+    #areas .wrap > .grid .panel { --p-h: calc((100svh - 300px) / 2); }
+    .fm-code { font-size: 11.5px; }
+  }
+  @media (max-width: 639px) {
+    .fm-win__body { grid-template-columns: 1fr; } .fm-side { display: none; }
+    .fm-opts { grid-template-columns: 1fr; } .fm-win__bar .sp ~ span { display: none; }
+    .hero__window .fm-opt:nth-child(n+3) { display: none; }
+  }
+
+  /* app-frame (sections-library.md) */
+  .app.ui { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); margin-top: var(--s-7); background: var(--u-bg); border: 1px solid var(--u-border); border-radius: var(--u-r); box-shadow: var(--u-shadow); }
+  .app > .app__pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+  .app > .app__pane + .app__pane { border-left: 1px solid var(--u-line); }
+  .app > .app__pane > .ui-panel { width: 100%; border: 0; border-radius: 0; box-shadow: none; }
+  .app > .app__pane::after { content: ""; position: absolute; inset: auto 0 0 0; height: 64px; background: linear-gradient(transparent, var(--u-bg)); pointer-events: none; }
+  @media (min-width: 1024px) and (max-width: 1279px) { .app.ui { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); } }
+  @media (max-width: 1023px) {
+    .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+    .app > .app__pane--list { max-height: 252px; }
+    .app > .app__pane--list::after { display: none; }
+    .app .ui-win__side { display: none; }
+    .app .ui-win__body { grid-template-columns: minmax(0, 1fr); }
+    .app > .app__pane + .app__pane { border-left: 0; border-top: 1px solid var(--u-line); }
+  }
+  @media (max-width: 639px) {
+    .app.ui { grid-template-rows: minmax(0, 1fr); }
+    .app > .app__pane--list { display: none; }
+    .app > .app__pane + .app__pane { border-top: 0; }
+  }
+  /* the open pane: the student's plan, the week's checklist over the next weeks */
+  .fm-pdi { padding: 20px 24px; display: grid; gap: 16px; align-content: start; font: 400 14px/1.45 var(--font-text); color: var(--u-ink); }
+  .fm-pdi__head { display: flex; align-items: baseline; gap: 12px; }
+  .fm-pdi__head b { font-size: 16px; font-weight: 500; } .fm-pdi__head span { font-size: 13px; color: var(--u-muted); }
+  .fm-pdi .ui-checks { width: 100%; border: 1px solid var(--u-line); border-radius: 12px; box-shadow: none; }
+  .fm-weeks { display: grid; gap: 0; }
+  .fm-week { display: grid; grid-template-columns: 110px 1fr auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--u-line); font-size: 13px; }
+  .fm-week span:first-child { color: var(--u-muted); } .fm-week b { font-weight: 500; }
+  .fm-week em { font-style: normal; font-size: 13px; color: var(--u-muted); }
+  .fm-match { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 12px 0 0; border-top: 1px solid var(--u-line); font-size: 13px; }
+  .fm-match b { font-weight: 500; font-size: 14px; } .fm-match span { color: var(--u-muted); } .fm-match em { grid-row: span 2; align-self: center; font-style: normal; font-weight: 500; color: var(--p-accent); }
+
+  /* the steps' screens (pinned-chapters): a window that fills its frame */
+  #avaliacao .mo-pc__visual .fm-win { width: min(100%, 520px); }
+  #avaliacao.is-live .mo-pc__visuals { aspect-ratio: 5 / 6; }
+  #avaliacao .mo-pc__visual .fm-main { padding: 20px; }
+  /* static steps (under 1024, reduced motion): the window anchored at the top of a shorter frame, cut by its foot */
+  #avaliacao:not(.is-live) .mo-pc__visual--lit { aspect-ratio: 5 / 3; align-items: flex-start; padding: 16px 16px 0; }
+  #avaliacao:not(.is-live) .mo-pc__visual .fm-win { width: 100%; border-radius: 10px 10px 0 0; }
+  #avaliacao:not(.is-live) .mo-pc__visual .fm-main { padding: 14px; gap: 8px; }
+  #avaliacao:not(.is-live) .fm-opts { grid-template-columns: 1fr 1fr; }
+  #avaliacao:not(.is-live) .fm-opt { padding: 8px 10px; }
+  .fm-areas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .fm-area { padding: 12px; border-radius: 10px; border: 1px solid rgb(0 0 0 / .1); display: grid; gap: 6px; font-size: 13px; color: #3d4247; }
+  .fm-area b { font-weight: 500; color: #16181a; }
+  .fm-area.is-on { border-color: var(--p-accent); background: #eef5f0; }
+  .fm-plan { display: grid; }
+  .fm-plan div { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 9px 0; border-top: 1px solid rgb(0 0 0 / .07); font-size: 13px; }
+  .fm-plan div span { color: #6a6e73; } .fm-plan div b { font-weight: 500; color: #16181a; }
+
+  /* the four areas: one small screen of each area's work in its panel */
+  #areas .panel { --p-h: 300px; }
+  .fm-mini { width: 100%; background: #fff; border-radius: 12px; box-shadow: 0 0 0 1px rgb(0 0 0 / .08), 0 20px 40px -24px rgb(0 0 0 / .3); font: 400 13px/1.45 var(--font-text); color: #16181a; overflow: hidden; }
+  .fm-mini__bar { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-bottom: 1px solid rgb(0 0 0 / .07); color: #5d6268; }
+  .fm-mini__body { padding: 12px 14px; display: grid; gap: 8px; }
+  .fm-code { font: 400 13px/1.6 var(--font-mono); color: #3d4247; white-space: pre; }
+  .fm-code .k { color: #1f6b3a; } .fm-code .s { color: #9a5b13; } .fm-code .c { color: #8a8f94; }
+  .fm-cols { display: flex; align-items: flex-end; gap: 10px; height: 110px; padding-top: 8px; }
+  .fm-cols i { flex: 1; height: var(--h); border-radius: 4px 4px 0 0; background: #cfe2d5; } .fm-cols i.is-on { background: var(--p-accent); }
+  .fm-legend { display: flex; justify-content: space-between; color: #6a6e73; }
+  .fm-alert { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; padding: 10px 12px; border-radius: 10px; background: #fbefe9; }
+  .fm-alert i { grid-row: span 2; width: 10px; height: 10px; margin-top: 4px; border-radius: 50%; background: #c0462a; }
+  .fm-alert span { color: #6a6e73; }
+  .fm-row { display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid rgb(0 0 0 / .07); }
+  .fm-row:first-child { border-top: 0; } .fm-row span { color: #6a6e73; }
+  .fm-ok { color: #1f6b3a; font-weight: 500; } .fm-warn { color: #9a5b13; font-weight: 500; }
+  .fm-mini__body.fm-code { display: block; }
+  .hero--centred .hero__lead { color: var(--ink); }
+  .close--word .close__word { line-height: 1.12; }
+  @media (max-width: 639px) {
+    #duvidas .stack-4 > p, #duvidas .faq__item:nth-child(n+5) { display: none; }
+    #avaliacao:not(.is-live) { min-height: calc(2 * 100lvh); }
+    #avaliacao .mo-pc__step:nth-child(1) .fm-q:nth-of-type(2), #avaliacao .mo-pc__step:nth-child(1) .fm-opts:nth-of-type(2),
+    #avaliacao .mo-pc__step:nth-child(2) .fm-q, #avaliacao .fm-plan div:last-child { display: none; }
+    #avaliacao:not(.is-live) .mo-pc__visual--lit { aspect-ratio: auto; height: 290px; }
+    .hero__window .fm-res span { display: none; }
+    .fm-code { font-size: 11.5px; }
+    .fm-week:nth-child(n+2), .fm-match { display: none; }
+  }
+  @media (max-width: 639px) { #areas .panel { --p-h: 196px; } #areas .card p { display: none; } }
+</style>
+</head>
+<body>
+<!-- type: software (site-kind software: a web app for students)
+     deal: hero centred, nav nav-centre (nav-cards dealt, re-dealt: no photographs for its cards), close close-word,
+     footer footer-columns, rhythm space, buttons pill, mark stack, grounds none (lit ground sand for the frames)
+     palette mint-pink-accounts: an off-white ground and a deep green that reads as a path and growth, calm
+     enough for students and far from the purple of the old screens; type instrument (Instrument Sans + DM Mono)
+     moments: pinned-chapters in #avaliacao (the three steps of the assessment, one screen each) -->
+
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Pular para o conteúdo</a>
+    <a class="nav__logo" href="#top"><span class="mark" data-mark="stack" aria-hidden="true"></span>FacMap</a>
+    <nav class="nav__links" aria-label="Principal">
+      <div class="nav__item"><a class="nav__link" href="#avaliacao">Avaliação</a></div>
+      <div class="nav__item"><a class="nav__link" href="#oportunidades">Estágios</a></div>
+      <div class="nav__item"><a class="nav__link" href="#areas">Áreas</a></div>
+      <div class="nav__item"><a class="nav__link" href="#duvidas">Dúvidas</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="nav__link" href="app.html#/login">Entrar</a>
+      <a class="btn btn--primary" href="app.html#/cadastro">Começar avaliação</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero hero--centred" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text">
+      <div class="hero__c">
+        <a class="pill" href="#avaliacao"><span>Alunos de SI</span><span class="muted">FACAPE</span></a>
+        <h1 id="hero-h">Orientação para alunos da FACAPE</h1>
+        <p class="hero__lead">Em 5 minutos você descobre qual caminho do curso de Sistemas de Informação combina com você e quais dos 7 núcleos, estágios e projetos da faculdade procurar.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="app.html#/cadastro">Começar avaliação</a><a class="btn btn--secondary" href="#avaliacao">Ver as três etapas</a></div>
+      </div>
+      <div class="hero__window" role="img" aria-label="A avaliação do FacMap: um cenário sobre o sistema de matrícula da FACAPE e o resultado, com maior afinidade em desenvolvimento de software">
+        <div class="ly-piece ui fm-win" aria-hidden="true">
+          <div class="fm-win__bar"><span class="fm-dots"><i></i><i></i><i></i></span><span><b>Avaliação</b> · Etapa 2 de 3</span><span class="sp"></span><span>Sistemas de Informação · 2º período</span></div>
+          <div class="fm-win__body">
+            <div class="fm-side">
+              <span class="fm-side__t">Sua avaliação</span>
+              <span class="fm-side__s is-done"><i>1</i>Perfil</span>
+              <span class="fm-side__s is-on"><i>2</i>Áreas e cenário</span>
+              <span class="fm-side__s"><i>3</i>Resultado e PDI</span>
+            </div>
+            <div class="fm-main" data-ly-steps="900">
+              <p class="fm-q">O sistema de matrícula da FACAPE ficou lento. O que você faria primeiro?</p>
+              <div class="fm-opts">
+                <span class="fm-opt is-on">Investigar onde está o problema</span>
+                <span class="fm-opt">Analisar os dados de uso</span>
+                <span class="fm-opt">Checar acessos suspeitos</span>
+                <span class="fm-opt">Verificar os servidores</span>
+              </div>
+              <div class="fm-res" data-step><span class="fm-res__ic">&lt;/&gt;</span><b>Desenvolvimento de software</b><em>86%</em><span>Sua maior afinidade · Dados vem logo depois, com 78%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- app-frame: the student's panel, the FACAPE opportunities beside the open plan -->
+  <section class="section" id="oportunidades" aria-labelledby="opp-h">
+    <div class="wrap">
+      <div class="grid grid--top">
+        <h2 id="opp-h" class="span-5">Os estágios e projetos da FACAPE no seu painel</h2>
+        <div class="span-6 start-7 stack-4"><p>Depois da avaliação, o painel cruza sua área com os núcleos, a empresa júnior e os projetos de extensão da faculdade, e mostra o que estudar nesta semana para chegar lá.</p><p><a class="link" href="app.html#/cadastro">Criar minha conta</a></p></div>
+      </div>
+      <div class="ui app fill" role="img" aria-label="O painel do FacMap: a lista de estágios e projetos da FACAPE ao lado do plano de estudos da semana" data-ui-pause-host>
+        <div class="app__pane app__pane--list">
+          <div class="ui ui-panel ui-win" data-ui="window" data-open="Aberto" data-work="Analisando" data-done="Combina">
+            <div class="ui-win__bar">
+              <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="ui-win__crumb">FacMap <i>/</i> <b>Oportunidades</b></span>
+              <span class="ui-spacer"></span>
+              <span class="ui-win__search" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg><span class="ui-win__ph">Buscar</span><span class="ui-kbd">/</span></span>
+            </div>
+            <div class="ui-win__body">
+              <div class="ui-win__main">
+                <div class="ui-win__cols" aria-hidden="true"><span>Núcleo</span><span>Foco</span><span>Status</span><span>Tipo</span></div>
+                <ul class="ui-win__rows">
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">TH</span><span class="ui-win__who">TechHub</span><span class="ui-win__sub">IA, cloud e desenvolvimento web</span><span class="ui-win__st" data-st>Aberto</span><span class="ui-win__age">Estágio</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">IJ</span><span class="ui-win__who">Inova Jr.</span><span class="ui-win__sub">Projetos web para clientes reais</span><span class="ui-win__st" data-st>Aberto</span><span class="ui-win__age">Estágio</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">NT</span><span class="ui-win__who">NTI</span><span class="ui-win__sub">Sistemas internos e redes</span><span class="ui-win__st" data-st>Aberto</span><span class="ui-win__age">Estágio</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">NE</span><span class="ui-win__who">NTE</span><span class="ui-win__sub">Plataformas para o ensino</span><span class="ui-win__st is-done" data-st>Combina</span><span class="ui-win__age">Estágio</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">AG</span><span class="ui-win__who">AGROLABS</span><span class="ui-win__sub">IoT e dados para o agro do Vale</span><span class="ui-win__st is-done" data-st>Combina</span><span class="ui-win__age">Extensão</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">RC</span><span class="ui-win__who">RECOM</span><span class="ui-win__sub">Computadores recondicionados</span><span class="ui-win__st is-done" data-st>Combina</span><span class="ui-win__age">Extensão</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">FA</span><span class="ui-win__who">FATI</span><span class="ui-win__sub">Inclusão digital na terceira idade</span><span class="ui-win__st is-done" data-st>Combina</span><span class="ui-win__age">Extensão</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="app__pane app__pane--open" data-ui-loop>
+          <div class="ui-panel fm-pdi">
+            <div class="fm-pdi__head"><b>Seu PDI</b><span>Desenvolvimento de software · 4 horas por semana</span></div>
+            <div class="ui ui-panel ui-checks" data-ui="checklist">
+              <div class="ui-checks__head">
+                <div class="ui-title">Semana 1 · Git e GitHub</div>
+                <span class="ui-spacer"></span>
+                <div class="ui-meta" data-checks-count>1 de 3</div>
+              </div>
+              <div class="ui-checks__bar"><i data-checks-bar style="--k:0.33"></i></div>
+              <ul class="ui-checks__list">
+                <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Entender o que é controle de versão</span></li>
+                <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Criar uma conta e um repositório no GitHub</span></li>
+                <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Enviar o primeiro arquivo usando Git</span></li>
+              </ul>
+            </div>
+            <div class="fm-weeks">
+              <div class="fm-week"><span>Semanas 2 e 3</span><b>HTML e CSS</b><em>Próximo</em></div>
+              <div class="fm-week"><span>Semanas 4 a 6</span><b>JavaScript básico</b><em>Depois</em></div>
+              <div class="fm-week"><span>Próxima etapa</span><b>Projeto autoral</b><em>Depois</em></div>
+            </div>
+            <div class="fm-match"><b>TechHub e Inova Jr.</b><em>Combinam com seu PDI</em><span>Git e projetos web aparecem nos dois</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- pinned-chapters (moments.md): the three steps of the assessment, one screen of the app each -->
+  <section class="section" id="avaliacao" style="--h: 2; --hm: 2" data-moment="pinned-chapters" aria-labelledby="steps-h">
+    <div class="wrap mo-pc__grid">
+      <div class="mo-pc__text">
+        <h2 id="steps-h">A avaliação em 3 etapas</h2>
+        <ol class="mo-pc__steps">
+          <li class="mo-pc__step">
+            <h3>Conte em que ponto do curso você está</h3>
+            <p>Seu período, quantas horas sobram na semana e o que você já viu nas aulas, como lógica de programação ou Git.</p>
+            <figure class="mo-pc__visual mo-pc__visual--lit" role="img" aria-label="A etapa de perfil: o período no curso e as horas livres por semana">
+              <div class="ui fm-win" aria-hidden="true">
+                <div class="fm-win__bar"><span class="fm-dots"><i></i><i></i><i></i></span><span><b>Perfil</b> · Etapa 1 de 3</span></div>
+                <div class="fm-main">
+                  <p class="fm-q"><small>Pergunta 1</small>Em que período você está?</p>
+                  <div class="fm-opts"><span class="fm-opt">1º período</span><span class="fm-opt is-on">2º ao 4º período</span><span class="fm-opt">5º período ou mais</span></div>
+                  <p class="fm-q"><small>Pergunta 2</small>Quanto tempo livre você tem por semana?</p>
+                  <div class="fm-opts"><span class="fm-opt">Até 2 horas</span><span class="fm-opt is-on">Cerca de 4 horas</span><span class="fm-opt">6 horas ou mais</span></div>
+                </div>
+              </div>
+            </figure>
+          </li>
+          <li class="mo-pc__step">
+            <h3>Experimente as quatro áreas</h3>
+            <p>Cenários tirados da rotina da FACAPE mostram o dia a dia de desenvolvimento, dados, segurança e infraestrutura.</p>
+            <figure class="mo-pc__visual mo-pc__visual--lit" role="img" aria-label="A etapa de áreas: as quatro áreas do curso, com desenvolvimento escolhida">
+              <div class="ui fm-win" aria-hidden="true">
+                <div class="fm-win__bar"><span class="fm-dots"><i></i><i></i><i></i></span><span><b>Áreas</b> · Etapa 2 de 3</span></div>
+                <div class="fm-main">
+                  <p class="fm-q"><small>Qual área você quer experimentar primeiro?</small>Escolha uma, depois teste as outras</p>
+                  <div class="fm-areas">
+                    <div class="fm-area is-on"><b>Desenvolvimento</b>Sites, apps e APIs</div>
+                    <div class="fm-area"><b>Dados e ML</b>Python, SQL e BI</div>
+                    <div class="fm-area"><b>Segurança</b>Pentest e criptografia</div>
+                    <div class="fm-area"><b>Infraestrutura</b>Linux, redes e cloud</div>
+                  </div>
+                </div>
+              </div>
+            </figure>
+          </li>
+          <li class="mo-pc__step">
+            <h3>Receba seu PDI</h3>
+            <p>Um plano semana a semana, do Git ao primeiro projeto, com os estágios da FACAPE que pedem o que você vai estudar.</p>
+            <figure class="mo-pc__visual mo-pc__visual--lit" role="img" aria-label="O resultado: afinidade de 86% com desenvolvimento e o plano das próximas semanas">
+              <div class="ui fm-win" aria-hidden="true">
+                <div class="fm-win__bar"><span class="fm-dots"><i></i><i></i><i></i></span><span><b>Resultado</b> · Etapa 3 de 3</span></div>
+                <div class="fm-main">
+                  <div class="fm-res"><span class="fm-res__ic">&lt;/&gt;</span><b>Desenvolvimento de software</b><em>86%</em><span>Dados e Machine Learning: 78%</span></div>
+                  <div class="fm-plan">
+                    <div><span>Semana 1</span><b>Git e GitHub</b></div>
+                    <div><span>Semanas 2 e 3</span><b>HTML e CSS</b></div>
+                    <div><span>Semanas 4 a 6</span><b>JavaScript básico</b></div>
+                    <div><span>Próxima etapa</span><b>Projeto autoral</b></div>
+                  </div>
+                </div>
+              </div>
+            </figure>
+          </li>
+        </ol>
+      </div>
+      <div class="mo-pc__visuals frame"></div>
+    </div>
+  </section>
+
+  <!-- features-2x2: the four areas of the course, each with a small screen of its work -->
+  <section class="section g2" id="areas" aria-labelledby="areas-h">
+    <div class="wrap">
+      <div class="group">
+        <div class="section-head">
+          <h2 id="areas-h">Quatro caminhos do seu curso. <span class="muted">Cada um testado com uma situação da FACAPE.</span></h2>
+        </div>
+        <div class="grid">
+          <article class="card card--row card--open span-6">
+            <h3>Desenvolvimento de software</h3>
+            <p>Criar sites, aplicativos e APIs, como o sistema de matrícula que todo aluno usa no início do semestre.</p>
+            <div class="panel"><div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:420px;--ax:max(24px, 50% - 210px);--ay:40px;--ay-sm:16px">
+              <div class="ui ui-panel fm-mini" role="img" aria-label="Um trecho de código JavaScript que busca as turmas do aluno">
+                <div class="fm-mini__bar"><span class="fm-dots" aria-hidden="true"><i></i><i></i><i></i></span>matricula.js</div>
+                <div class="fm-mini__body fm-code" aria-hidden="true"><span class="c">// turmas com vaga</span>
+<span class="k">const</span> turmas = <span class="k">await</span> api.get(
+  <span class="s">"/turmas"</span>, { curso: <span class="s">"SI"</span> }
+);
+render(comVaga(turmas));</div>
+              </div>
+            </div></div></div>
+          </article>
+          <article class="card card--row card--open span-6">
+            <h3>Dados e Machine Learning</h3>
+            <p>Descobrir padrões e prever demandas, como os horários em que o sistema da faculdade recebe mais acessos.</p>
+            <div class="panel"><div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:420px;--ax:max(24px, 50% - 210px);--ay:40px;--ay-sm:16px">
+              <div class="ui ui-panel fm-mini" role="img" aria-label="Um gráfico de acessos ao sistema por hora, com o pico às 19h">
+                <div class="fm-mini__bar">Acessos por hora · 1ª semana de matrícula</div>
+                <div class="fm-mini__body" aria-hidden="true">
+                  <div class="fm-cols"><i style="--h:22%"></i><i style="--h:35%"></i><i style="--h:30%"></i><i style="--h:48%"></i><i style="--h:56%"></i><i class="is-on" style="--h:100%"></i><i style="--h:70%"></i><i style="--h:38%"></i></div>
+                  <div class="fm-legend"><span>08h</span><span>Pico às 19h</span><span>23h</span></div>
+                </div>
+              </div>
+            </div></div></div>
+          </article>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card card--row card--open span-6">
+          <h3>Segurança da informação</h3>
+          <p>Proteger contas e dados de alunos e professores, e perceber quando um acesso foge do normal.</p>
+          <div class="panel"><div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:420px;--ax:max(24px, 50% - 210px);--ay:40px;--ay-sm:16px">
+            <div class="ui ui-panel fm-mini" role="img" aria-label="Um alerta de 14 tentativas de login falhas em uma conta de aluno">
+              <div class="fm-mini__bar">Alertas de acesso</div>
+              <div class="fm-mini__body" aria-hidden="true">
+                <div class="fm-alert"><i></i><b>14 tentativas de login falhas</b><span>Mesma conta, em 3 minutos</span></div>
+                <div class="fm-row"><b>Bloqueio temporário</b><span class="fm-ok">Ativo</span></div>
+                <div class="fm-row"><b>Aviso ao aluno por e-mail</b><span class="fm-ok">Enviado</span></div>
+              </div>
+            </div>
+          </div></div></div>
+        </article>
+        <article class="card card--row card--open span-6">
+          <h3>Infraestrutura, redes e cloud</h3>
+          <p>Manter servidores, redes e serviços em nuvem no ar, inclusive na semana em que todo mundo acessa ao mesmo tempo.</p>
+          <div class="panel"><div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:420px;--ax:max(24px, 50% - 210px);--ay:40px;--ay-sm:16px">
+            <div class="ui ui-panel fm-mini" role="img" aria-label="O status de três servidores, um deles com uso de CPU alto">
+              <div class="fm-mini__bar">Servidores · agora</div>
+              <div class="fm-mini__body" aria-hidden="true">
+                <div class="fm-row"><b>web-01</b><span class="fm-ok">CPU 38%</span></div>
+                <div class="fm-row"><b>web-02</b><span class="fm-warn">CPU 91%</span></div>
+                <div class="fm-row"><b>banco-01</b><span class="fm-ok">CPU 44%</span></div>
+                <div class="fm-row"><b>Nova instância</b><span>Subindo em 40 s</span></div>
+              </div>
+            </div>
+          </div></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- faq: the questions students in the course ask, every answer open -->
+  <section class="section" id="duvidas" aria-labelledby="faq-h">
+    <div class="wrap grid grid--top">
+      <div class="span-5 stack-4">
+        <h2 id="faq-h">Dúvidas de quem está no curso</h2>
+        <p>O FacMap é um projeto feito para os alunos de Sistemas de Informação da FACAPE.</p>
+      </div>
+      <div class="faq span-6 start-7">
+        <div class="faq__item"><h3>Preciso ser aluno da FACAPE?</h3><p>Sim. As perguntas, os cenários e as oportunidades foram pensados para o curso de Sistemas de Informação da FACAPE.</p></div>
+        <div class="faq__item"><h3>Preciso saber programar?</h3><p>Não. As perguntas partem do que se vê nos primeiros períodos, e “ainda não conheço” é uma resposta válida.</p></div>
+        <div class="faq__item"><h3>Quanto tempo leva?</h3><p>Cerca de 5 minutos, e dá para parar e continuar depois.</p></div>
+        <div class="faq__item"><h3>As vagas dos núcleos estão abertas agora?</h3><p>O painel mostra os núcleos e projetos da FACAPE. Vagas, requisitos e seleção são confirmados com cada núcleo.</p></div>
+        <div class="faq__item"><h3>O que é o PDI?</h3><p>Seu Plano de Desenvolvimento Individual: as tarefas de cada semana para chegar à área que você escolheu.</p></div>
+        <div class="faq__item"><h3>Quanto custa?</h3><p>Nada. O FacMap é gratuito para os alunos do curso.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing g2m" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--word">
+      <div class="section-head--split">
+        <div><h2 id="close-h">Descubra sua área em 5 minutos</h2><p class="t-lead">Gratuito para alunos de Sistemas de Informação da FACAPE.</p></div>
+        <a class="btn btn--primary" href="app.html#/cadastro">Começar avaliação<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+      </div>
+      <p class="close__word" aria-hidden="true">FacMap</p>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top"><span class="mark" data-mark="stack" aria-hidden="true"></span>FacMap</a>
+          <p class="footer__lede">Orientação para alunos da FACAPE.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Avaliação</h3><ul><li><a href="#avaliacao">As 3 etapas</a></li><li><a href="app.html#/cadastro">Criar conta</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Estágios</h3><ul><li><a href="#oportunidades">Seu painel</a></li><li><a href="#oportunidades">Núcleos e projetos</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Áreas</h3><ul><li><a href="#areas">As quatro áreas</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Dúvidas</h3><ul><li><a href="#duvidas">Perguntas</a></li><li><a href="app.html#/login">Entrar</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 FacMap · Protótipo acadêmico. Confirme vagas e requisitos com a FACAPE.</span>
+        <div class="socials"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<nav class="actionbar" aria-label="Ações rápidas">
+  <a class="btn btn--primary" href="app.html#/cadastro">Começar avaliação</a>
+</nav>
+
+<script vite-ignore type="module" src="assets/system.js"></script>
+<script vite-ignore type="module" src="assets/motion/motion.js"></script>
+<script vite-ignore type="module" src="assets/layout/layout.js"></script>
+</body>
 </html>
