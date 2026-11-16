@@ -9,9 +9,9 @@
   white-space: nowrap;
 }
 
-.purple {
-  background: var(--purple-muted);
-  color: var(--purple);
+.brand {
+  background: var(--brand-muted);
+  color: var(--brand);
 }
 .cyan {
   background: var(--cyan-light);
@@ -27,5 +27,9 @@
 }
 .navy {
   background: #e8eef5;
-  color: var(--navy);
+  color: var(--ink);
+}
+.rose {
+  background: #fbe9ec;
+  color: #b4233c;
 }

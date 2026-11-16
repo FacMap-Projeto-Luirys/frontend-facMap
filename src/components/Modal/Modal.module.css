@@ -42,7 +42,7 @@
 }
 .close:hover {
   background: var(--bg);
-  color: var(--navy);
+  color: var(--ink);
 }
 
 /* Bottom sheet no celular */

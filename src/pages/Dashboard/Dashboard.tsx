@@ -107,15 +107,15 @@ export function Dashboard() {
           <section className={s.card}>
             <div className={s.cardHeadRow}>
               <div className={s.cardTitle}>
-                <Icon name="star" size={16} color={COLORS.purple} />
+                <Icon name="star" size={16} color={COLORS.brand} />
                 Minha semana
-                <Badge color="purple">Git e GitHub</Badge>
+                <Badge color="brand">Git e GitHub</Badge>
               </div>
               <span className={cx(s.count, weekDone && s.countDone)}>
                 {checkedCount}/{CHECKLIST.length}
               </span>
             </div>
-            <ProgressBar pct={progress} color={weekDone ? COLORS.green : COLORS.purple} />
+            <ProgressBar pct={progress} color={weekDone ? COLORS.green : COLORS.brand} />
             <ul className={s.checklist}>
               {CHECKLIST.map((item) => {
                 const done = !!checklist[item.id];
@@ -141,7 +141,7 @@ export function Dashboard() {
           {/* Resumo do caminho */}
           <section className={s.card}>
             <div className={s.cardTitle}>
-              <Icon name="compass" size={16} color={COLORS.purple} />
+              <Icon name="compass" size={16} color={COLORS.brand} />
               Seu caminho
             </div>
             <div className={s.affinities}>

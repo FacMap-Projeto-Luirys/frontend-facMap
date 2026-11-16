@@ -4,7 +4,7 @@
   justify-content: center;
   gap: 8px;
   font-weight: 600;
-  border-radius: 16px;
+  border-radius: 999px;
   border: 1px solid transparent;
   transition:
     background-color 0.2s,
@@ -34,7 +34,7 @@
 .sm {
   padding: 8px 14px;
   font-size: 13px;
-  border-radius: 12px;
+  border-radius: 999px;
 }
 .md {
   padding: 13px 22px;
@@ -47,45 +47,44 @@
 
 /* Variantes */
 .primary {
-  background: var(--purple);
+  background: var(--brand);
   color: #fff;
-  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.25);
 }
 .primary:hover:not(:disabled) {
-  background: var(--purple-dark);
+  background: var(--brand-dark);
 }
 
 .secondary {
   background: #fff;
-  color: var(--purple);
-  border-color: var(--purple);
+  color: var(--brand);
+  border-color: var(--brand);
 }
 .secondary:hover:not(:disabled) {
-  background: var(--purple-muted);
+  background: var(--brand-muted);
 }
 
 .ghost {
   color: var(--text-light);
 }
 .ghost:hover:not(:disabled) {
-  color: var(--navy);
+  color: var(--ink);
   background: rgba(27, 46, 75, 0.04);
 }
 
 .outline {
   background: #fff;
-  color: var(--navy);
+  color: var(--ink);
   border-color: var(--border);
 }
 .outline:hover:not(:disabled) {
-  border-color: var(--purple);
-  color: var(--purple);
+  border-color: var(--brand);
+  color: var(--brand);
 }
 
 .light {
   background: #fff;
-  color: var(--purple);
+  color: var(--brand);
 }
 .light:hover:not(:disabled) {
-  background: var(--purple-muted);
+  background: var(--brand-muted);
 }

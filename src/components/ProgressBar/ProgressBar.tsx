@@ -3,7 +3,7 @@ import s from "./ProgressBar.module.css";
 
 type Props = { pct: number; color?: string; thick?: boolean; className?: string; label?: string };
 
-export function ProgressBar({ pct, color = "#6D28D9", thick = false, className, label }: Props) {
+export function ProgressBar({ pct, color = "#1F6B3A", thick = false, className, label }: Props) {
   const value = Math.max(0, Math.min(100, pct));
   return (
     <div

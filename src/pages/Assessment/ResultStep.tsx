@@ -20,7 +20,7 @@ export function ResultStep() {
     <AssessmentLayout
       step={3}
       title="Dois caminhos para começar explorando"
-      subtitle="Com base nas suas respostas, estas são as áreas com maior afinidade com o seu perfil."
+      subtitle="Com base nas suas respostas, estas são as áreas com maior afinidade com o seu perfil dentro do curso de SI."
       actions={
         <>
           <Button variant="ghost" to={ROUTES.profile}>
@@ -98,7 +98,7 @@ export function ResultStep() {
                 <Icon name="book" size={13} color="white" />
               </span>
               Prévia do PDI
-              <Badge color="purple">Rascunho</Badge>
+              <Badge color="brand">Rascunho</Badge>
             </h3>
             <ul className={s.pdiList}>
               {PDI_PREVIEW.map((p) => (

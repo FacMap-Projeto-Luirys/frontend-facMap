@@ -16,23 +16,20 @@
   gap: 32px;
   padding: 40px 48px;
   color: #fff;
-  background:
-    radial-gradient(600px 400px at 100% 0%, rgba(124, 58, 237, 0.55), transparent 70%),
-    radial-gradient(500px 400px at 0% 100%, rgba(8, 145, 178, 0.35), transparent 70%),
-    var(--navy);
+  background: var(--ink);
   overflow: hidden;
 }
 
 .brandBody h2 {
   font-size: clamp(28px, 2.8vw, 40px);
   line-height: 1.12;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.02em;
   margin-bottom: 16px;
 }
 .brandBody h2 span {
   display: block;
-  color: var(--purple-border);
+  color: #8fc4a1;
 }
 .brandBody p {
   color: rgba(255, 255, 255, 0.72);
@@ -110,7 +107,7 @@
   border-radius: 10px;
 }
 .backLink:hover {
-  color: var(--navy);
+  color: var(--ink);
   background: #fff;
 }
 
@@ -131,9 +128,9 @@
 }
 .formHead h1 {
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.02em;
-  color: var(--navy);
+  color: var(--ink);
   margin-bottom: 6px;
 }
 .formHead p {
@@ -149,7 +146,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 14px;
 }
 
@@ -199,11 +196,11 @@
     border-color 0.2s;
 }
 .checkbox input:checked + .checkboxBox {
-  background: var(--purple);
-  border-color: var(--purple);
+  background: var(--brand);
+  border-color: var(--brand);
 }
 .checkbox input:focus-visible + .checkboxBox {
-  outline: 2px solid var(--purple-light);
+  outline: 2px solid var(--brand-light);
   outline-offset: 2px;
 }
 
@@ -224,8 +221,8 @@
   color: var(--text-light);
 }
 .formFooter a {
-  font-weight: 700;
-  color: var(--purple);
+  font-weight: 600;
+  color: var(--brand);
 }
 .formFooter a:hover {
   text-decoration: underline;

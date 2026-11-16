@@ -1,35 +1,36 @@
 :root {
-  --bg: #f4f5f7;
+  /* Paleta mint-pink-accounts + Instrument Sans (a mesma da landing, index.html) */
+  --bg: #f8f8f8;
   --card: #ffffff;
-  --navy: #1b2e4b;
-  --navy-dark: #12203a;
-  --purple: #6d28d9;
-  --purple-dark: #5b21b6;
-  --purple-light: #7c3aed;
-  --purple-muted: #ede9fe;
-  --purple-border: #c4b5fd;
-  --cyan: #0891b2;
-  --cyan-light: #e0f7fa;
-  --green: #059669;
-  --green-light: #d1fae5;
-  --orange: #d97706;
+  --ink: #0a0a0a;
+  --ink-dark: #000000;
+  --brand: #1f6b3a;
+  --brand-dark: #17532d;
+  --brand-light: #2a8049;
+  --brand-muted: #e6f0e9;
+  --brand-border: #a9cdb5;
+  --cyan: #0e7490;
+  --cyan-light: #e0f2f5;
+  --green: #15803d;
+  --green-light: #dcfce7;
+  --orange: #b45309;
   --orange-light: #fef3c7;
-  --red: #dc2626;
-  --text: #1b2e4b;
-  --text-mid: #4b5563;
-  --text-light: #6b7280;
-  --border: #e5e7eb;
-  --border-soft: #f3f4f6;
+  --red: #b4233c;
+  --text: #0a0a0a;
+  --text-mid: #3d4247;
+  --text-light: #6a6a6a;
+  --border: #e3e3e3;
+  --border-soft: #eeeeee;
 
-  --shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 24px 60px rgba(27, 46, 75, 0.16);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 24px 60px -24px rgba(0, 0, 0, 0.18);
 
-  --radius-sm: 10px;
-  --radius: 14px;
+  --radius-sm: 8px;
+  --radius: 12px;
   --radius-lg: 20px;
 
-  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 *,
@@ -49,6 +50,7 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  font-stretch: 96%;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
@@ -76,7 +78,7 @@ svg {
 }
 
 :focus-visible {
-  outline: 2px solid var(--purple-light);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
