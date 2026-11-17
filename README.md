@@ -3,7 +3,7 @@
 Orientação de carreira em TI para estudantes de Sistemas de Informação da FACAPE.
 Versão web (desktop + responsiva) do protótipo `interface-inova-o`.
 
-**Stack:** React 19 · TypeScript · CSS Modules · Vite (somente front-end).
+**Stack:** React 19 · TypeScript · CSS Modules · Vite. API em `backend-facMap` (FastAPI).
 
 ## Rodando
 
@@ -30,17 +30,20 @@ npm run build    # checagem de tipos + build de produção
 ```
 src/
   components/   Button, Badge, Icon, Logo, Modal, ProgressBar, TextField, UserChip
-  context/      AuthContext (login/cadastro), AssessmentContext (respostas da avaliação)
+  context/      AuthContext (login/cadastro via API), AssessmentContext (respostas e resultado da avaliação)
   data/         content.ts — todos os textos, áreas e oportunidades
   pages/        Landing, Auth (Login/Signup), Assessment (3 etapas), Dashboard
+  utils/        api.ts — cliente HTTP com o token JWT
   styles/       global.css — tokens de cor, reset e utilitários
   router.tsx    roteador mínimo baseado em hash
 ```
 
 ## Observações
 
-- **Autenticação é simulada**: contas, sessão e respostas ficam no `localStorage`.
-  Para integrar um back-end, troque as funções `login`/`signup`/`logout` em
-  `src/context/AuthContext.tsx` por chamadas à API — o resto do app não muda.
+- **Backend**: login, cadastro e avaliação usam a API do `backend-facMap` (JWT).
+  Configure a URL em `.env` (`VITE_API_URL`, veja `.env.example`). O padrão é `http://localhost:8000`.
+  O token fica no `localStorage`; se a API responder 401, a sessão é encerrada.
+- **Resultado da avaliação**: calculado pelo backend a partir de `app/data/assessment.json`
+  (afinidades, "por que", disciplina e prévia do PDI).
 - Cores dinâmicas por área usam a variável CSS `--accent` (definida via `style`)
   combinada com `color-mix()` nos módulos CSS.
