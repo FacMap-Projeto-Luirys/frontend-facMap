@@ -59,24 +59,8 @@ export const SCENARIO_OPTS: { icon: IconName; text: string; area: AreaId }[] = [
   { icon: "server", text: "Verificar a infraestrutura e servidores", area: "infra" },
 ];
 
-// ─── Avaliação: resultado ─────────────────────────────────────────────────────
-export const RECOMMENDATIONS: { title: string; pct: number; color: string; icon: IconName; desc: string }[] = [
-  { title: "Desenvolvimento de software", pct: 86, color: COLORS.brand, icon: "code", desc: "Criação de sites, aplicativos e soluções digitais." },
-  { title: "Dados e Machine Learning", pct: 78, color: COLORS.cyan, icon: "chart", desc: "Análise de dados, visualizações e automações." },
-];
-
-export const WHY_RESULT: { icon: IconName; text: string }[] = [
-  { icon: "star", text: "Interesse em construir soluções que outras pessoas utilizam" },
-  { icon: "layers", text: "Facilidade para organizar problemas em etapas menores" },
-  { icon: "chart", text: "Curiosidade para entender padrões e interpretar resultados" },
-];
-
-export const PDI_PREVIEW = [
-  { period: "Semana 1", task: "Git e GitHub", color: COLORS.brand },
-  { period: "Semanas 2–3", task: "HTML e CSS", color: COLORS.cyan },
-  { period: "Semanas 4–6", task: "JavaScript básico", color: COLORS.green },
-  { period: "Próxima etapa", task: "Projeto autoral", color: COLORS.orange },
-];
+// O resultado da avaliação (afinidades, "por que", disciplina e prévia do PDI) é calculado
+// pelo backend a partir de backend-facMap/app/data/assessment.json.
 
 // ─── Painel / PDI ─────────────────────────────────────────────────────────────
 export const CHECKLIST = [
