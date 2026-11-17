@@ -1,15 +1,15 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { api, ApiError, clearToken, getToken, setToken, UNAUTHORIZED_EVENT } from "../utils/api";
 import { readJSON, removeKey, writeJSON } from "../utils/storage";
 
 /**
- * Autenticação simulada (somente front-end).
- * Contas e sessão ficam no localStorage do navegador — substitua pelas
- * chamadas da sua API quando o back-end existir.
+ * Autenticação via API (JWT).
+ * O token fica no localStorage e é enviado no header Authorization das rotas protegidas.
  */
-export type User = { name: string; email: string };
-type StoredUser = User & { password: string };
+export type User = { id: number; name: string; email: string };
 
-const USERS_KEY = "facmap:users";
+type TokenResponse = { access_token: string; token_type: string; expires_in: number; user: User };
+
 const SESSION_KEY = "facmap:session";
 
 type SignupInput = { name: string; email: string; password: string };
@@ -23,47 +23,66 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const normalize = (email: string) => email.trim().toLowerCase();
-const fakeLatency = () => new Promise((r) => setTimeout(r, 500));
+const messageOf = (e: unknown) => (e instanceof ApiError ? e.message : "Algo deu errado. Tente novamente.");
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => readJSON<User | null>(SESSION_KEY, null));
+  // Mostra o usuário salvo de imediato (sem piscar a tela de login) e valida o token em seguida.
+  const [user, setUser] = useState<User | null>(() => (getToken() ? readJSON<User | null>(SESSION_KEY, null) : null));
 
-  const startSession = useCallback((u: User) => {
-    setUser(u);
-    writeJSON(SESSION_KEY, u);
+  const startSession = useCallback((res: TokenResponse) => {
+    setToken(res.access_token);
+    writeJSON(SESSION_KEY, res.user);
+    setUser(res.user);
+  }, []);
+
+  const logout = useCallback(() => {
+    clearToken();
+    removeKey(SESSION_KEY);
+    setUser(null);
+  }, []);
+
+  // Token expirado/inválido em qualquer chamada → encerra a sessão.
+  useEffect(() => {
+    window.addEventListener(UNAUTHORIZED_EVENT, logout);
+    return () => window.removeEventListener(UNAUTHORIZED_EVENT, logout);
+  }, [logout]);
+
+  // Confere o token salvo ao abrir o app e atualiza os dados do usuário.
+  useEffect(() => {
+    if (!getToken()) return;
+    api<User>("/users/me", { auth: true })
+      .then((u) => {
+        writeJSON(SESSION_KEY, u);
+        setUser(u);
+      })
+      .catch(() => {
+        /* 401 já faz logout pelo evento; erro de rede mantém a sessão local */
+      });
   }, []);
 
   const login = useCallback(
     async (email: string, password: string) => {
-      await fakeLatency();
-      const users = readJSON<StoredUser[]>(USERS_KEY, []);
-      const found = users.find((u) => u.email === normalize(email));
-      if (!found || found.password !== password) return "E-mail ou senha incorretos.";
-      startSession({ name: found.name, email: found.email });
-      return null;
+      try {
+        startSession(await api<TokenResponse>("/auth/login", { method: "POST", body: { email, password } }));
+        return null;
+      } catch (e) {
+        return messageOf(e);
+      }
     },
     [startSession],
   );
 
   const signup = useCallback(
     async ({ name, email, password }: SignupInput) => {
-      await fakeLatency();
-      const users = readJSON<StoredUser[]>(USERS_KEY, []);
-      const mail = normalize(email);
-      if (users.some((u) => u.email === mail)) return "Já existe uma conta com este e-mail.";
-      const newUser: StoredUser = { name: name.trim(), email: mail, password };
-      writeJSON(USERS_KEY, [...users, newUser]);
-      startSession({ name: newUser.name, email: newUser.email });
-      return null;
+      try {
+        startSession(await api<TokenResponse>("/auth/register", { method: "POST", body: { name, email, password } }));
+        return null;
+      } catch (e) {
+        return messageOf(e);
+      }
     },
     [startSession],
   );
-
-  const logout = useCallback(() => {
-    setUser(null);
-    removeKey(SESSION_KEY);
-  }, []);
 
   const value = useMemo(() => ({ user, login, signup, logout }), [user, login, signup, logout]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
