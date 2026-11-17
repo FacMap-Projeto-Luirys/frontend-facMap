@@ -27,8 +27,8 @@ function Redirect({ to }: { to: string }) {
 function Routes() {
   const path = usePath();
   const { user } = useAuth();
-  const { completed, profileComplete, area } = useAssessment();
-  const userHome = completed ? ROUTES.dashboard : ROUTES.profile;
+  const { completed, profileComplete, area, result } = useAssessment();
+  const userHome = completed && result ? ROUTES.dashboard : ROUTES.profile;
 
   const requireAuth = (page: ReactNode) => (user ? page : <Redirect to={ROUTES.login} />);
   const guestOnly = (page: ReactNode) => (user ? <Redirect to={userHome} /> : page);
@@ -47,7 +47,7 @@ function Routes() {
     case ROUTES.result:
       return requireAuth(area ? <ResultStep /> : <Redirect to={ROUTES.areas} />);
     case ROUTES.dashboard:
-      return requireAuth(completed ? <Dashboard /> : <Redirect to={ROUTES.profile} />);
+      return requireAuth(completed && result ? <Dashboard /> : <Redirect to={ROUTES.profile} />);
     default:
       return <Redirect to={ROUTES.home} />;
   }
@@ -57,7 +57,7 @@ function SessionScopedProviders({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const id = user?.email ?? "anon";
   return (
-    <AssessmentProvider key={id} storageId={id}>
+    <AssessmentProvider key={id} storageId={id} authenticated={!!user}>
       {children}
     </AssessmentProvider>
   );
