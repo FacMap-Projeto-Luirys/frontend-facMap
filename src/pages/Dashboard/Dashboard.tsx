@@ -13,8 +13,6 @@ import {
   COLORS,
   DASHBOARD_NAV,
   OPPORTUNITIES,
-  PDI_PREVIEW,
-  RECOMMENDATIONS,
   type OpportunityType,
 } from "../../data/content";
 import { navigate, ROUTES } from "../../router";
@@ -33,7 +31,7 @@ const ACTIVE_NAV = "oportunidades";
 
 export function Dashboard() {
   const { user } = useAuth();
-  const { answers, checklist, toggleChecklist, reset } = useAssessment();
+  const { answers, result, checklist, toggleChecklist, reset } = useAssessment();
   const [filter, setFilter] = useState<Filter>("todas");
   const [modalId, setModalId] = useState<string | null>(null);
 
@@ -145,8 +143,8 @@ export function Dashboard() {
               Seu caminho
             </div>
             <div className={s.affinities}>
-              {RECOMMENDATIONS.map((r) => (
-                <div key={r.title} className={s.affinity} style={accent(r.color)}>
+              {result?.recommendations.map((r) => (
+                <div key={r.area} className={s.affinity} style={accent(r.color)}>
                   <span className={s.affinityIcon}>
                     <Icon name={r.icon} size={16} />
                   </span>
@@ -163,7 +161,7 @@ export function Dashboard() {
             <div className={s.trail}>
               <span className={s.trailLabel}>Trilha do PDI</span>
               <ol className={s.trailList}>
-                {PDI_PREVIEW.map((p, i) => (
+                {result?.pdi.map((p, i) => (
                   <li key={p.task} className={cx(i === 0 && s.trailCurrent)} style={accent(p.color)}>
                     <span className={s.trailDot} />
                     <div>
