@@ -1,54 +1,40 @@
-import { useState } from "react";
-import { Badge } from "../../components/Badge/Badge";
-import { Button } from "../../components/Button/Button";
+import type { ComponentType } from "react";
 import { Icon } from "../../components/Icon/Icon";
 import { Logo } from "../../components/Logo/Logo";
-import { Modal } from "../../components/Modal/Modal";
-import { ProgressBar } from "../../components/ProgressBar/ProgressBar";
 import { UserChip } from "../../components/UserChip/UserChip";
 import { useAssessment } from "../../context/AssessmentContext";
-import { useAuth } from "../../context/AuthContext";
-import {
-  CHECKLIST,
-  COLORS,
-  DASHBOARD_NAV,
-  OPPORTUNITIES,
-  type OpportunityType,
-} from "../../data/content";
-import { navigate, ROUTES } from "../../router";
-import { accent, cx } from "../../utils/accent";
+import { DASHBOARD_NAV, type DashboardSection } from "../../data/content";
+import { Link, navigate, ROUTES } from "../../router";
+import { cx } from "../../utils/accent";
+import { Disciplines } from "./sections/Disciplines";
+import { JobAnalyzer } from "./sections/JobAnalyzer";
+import { Opportunities } from "./sections/Opportunities";
+import { Overview } from "./sections/Overview";
+import { Trail } from "./sections/Trail";
 import s from "./Dashboard.module.css";
 
-type Filter = "todas" | OpportunityType;
+/** Descobre a seção ativa a partir da rota (#/painel/trilha → "trilha"). Rota desconhecida cai no Início. */
+function sectionFromPath(path: string): DashboardSection {
+  return DASHBOARD_NAV.find((item) => item.path === path)?.id ?? "overview";
+}
 
-const FILTERS: { key: Filter; label: string }[] = [
-  { key: "todas", label: "Todas" },
-  { key: "estagio", label: "Estágios" },
-  { key: "extensao", label: "Extensão" },
-];
+const SECTIONS: Record<DashboardSection, ComponentType> = {
+  overview: Overview,
+  trilha: Trail,
+  oportunidades: Opportunities,
+  disciplinas: Disciplines,
+  vaga: JobAnalyzer,
+};
 
-const ACTIVE_NAV = "oportunidades";
-
-export function Dashboard() {
-  const { user } = useAuth();
-  const { answers, result, checklist, toggleChecklist, reset } = useAssessment();
-  const [filter, setFilter] = useState<Filter>("todas");
-  const [modalId, setModalId] = useState<string | null>(null);
-
-  const firstName = user?.name.split(" ")[0] ?? "";
-  const checkedCount = CHECKLIST.filter((i) => checklist[i.id]).length;
-  const progress = Math.round((checkedCount / CHECKLIST.length) * 100);
-  const weekDone = checkedCount === CHECKLIST.length;
-
-  const filtered = OPPORTUNITIES.filter((o) => filter === "todas" || o.type === filter);
-  const modalOpp = OPPORTUNITIES.find((o) => o.id === modalId) ?? null;
+export function Dashboard({ path }: { path: string }) {
+  const { reset } = useAssessment();
+  const active = sectionFromPath(path);
+  const Section = SECTIONS[active];
 
   const redo = () => {
     reset();
     navigate(ROUTES.profile);
   };
-
-  const planInfo = [answers.periodo, answers.tempo && `${answers.tempo.toLowerCase()} por semana`].filter(Boolean).join(" · ");
 
   return (
     <div className={s.layout}>
@@ -57,10 +43,15 @@ export function Dashboard() {
         <Logo />
         <nav className={s.sideNav} aria-label="Menu do painel">
           {DASHBOARD_NAV.map((item) => (
-            <span key={item.id} className={cx(s.sideItem, item.id === ACTIVE_NAV && s.sideItemActive)} aria-current={item.id === ACTIVE_NAV ? "page" : undefined}>
+            <Link
+              key={item.id}
+              to={item.path}
+              className={cx(s.sideItem, item.id === active && s.sideItemActive)}
+              aria-current={item.id === active ? "page" : undefined}
+            >
               <Icon name={item.icon} size={19} />
               {item.label}
-            </span>
+            </Link>
           ))}
         </nav>
         <div className={s.sideFooter}>
@@ -85,187 +76,25 @@ export function Dashboard() {
       </header>
 
       {/* ─── Conteúdo ────────────────────────────────────── */}
-      <main className={s.main}>
-        <section className={s.hero}>
-          <div>
-            <h1>Olá, {firstName}! Este é o seu próximo passo.</h1>
-            <p>Plano inicial{planInfo && ` · ${planInfo}`}</p>
-          </div>
-          <div className={s.stageBox}>
-            <div className={s.stageText}>
-              <Icon name="check" size={14} strokeWidth={3} />
-              Etapa 4 de 4 · Concluído
-            </div>
-            <ProgressBar pct={100} color={COLORS.green} />
-          </div>
-        </section>
-
-        <div className={s.topGrid}>
-          {/* Checklist semanal */}
-          <section className={s.card}>
-            <div className={s.cardHeadRow}>
-              <div className={s.cardTitle}>
-                <Icon name="star" size={16} color={COLORS.brand} />
-                Minha semana
-                <Badge color="brand">Git e GitHub</Badge>
-              </div>
-              <span className={cx(s.count, weekDone && s.countDone)}>
-                {checkedCount}/{CHECKLIST.length}
-              </span>
-            </div>
-            <ProgressBar pct={progress} color={weekDone ? COLORS.green : COLORS.brand} />
-            <ul className={s.checklist}>
-              {CHECKLIST.map((item) => {
-                const done = !!checklist[item.id];
-                return (
-                  <li key={item.id}>
-                    <button
-                      type="button"
-                      role="checkbox"
-                      aria-checked={done}
-                      className={cx(s.checkItem, done && s.checkItemDone)}
-                      onClick={() => toggleChecklist(item.id)}
-                    >
-                      <span className={s.checkBox}>{done && <Icon name="check" size={12} color="white" strokeWidth={3} />}</span>
-                      {item.text}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-            {weekDone && <p className={s.weekDone}>Semana concluída! 🎉</p>}
-          </section>
-
-          {/* Resumo do caminho */}
-          <section className={s.card}>
-            <div className={s.cardTitle}>
-              <Icon name="compass" size={16} color={COLORS.brand} />
-              Seu caminho
-            </div>
-            <div className={s.affinities}>
-              {result?.recommendations.map((r) => (
-                <div key={r.area} className={s.affinity} style={accent(r.color)}>
-                  <span className={s.affinityIcon}>
-                    <Icon name={r.icon} size={16} />
-                  </span>
-                  <div className={s.affinityBody}>
-                    <div className={s.affinityTop}>
-                      <span>{r.title}</span>
-                      <strong>{r.pct}%</strong>
-                    </div>
-                    <ProgressBar pct={r.pct} color={r.color} />
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className={s.trail}>
-              <span className={s.trailLabel}>Trilha do PDI</span>
-              <ol className={s.trailList}>
-                {result?.pdi.map((p, i) => (
-                  <li key={p.task} className={cx(i === 0 && s.trailCurrent)} style={accent(p.color)}>
-                    <span className={s.trailDot} />
-                    <div>
-                      <span className={s.trailPeriod}>{p.period}</span>
-                      <strong>{p.task}</strong>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </section>
-        </div>
-
-        {/* Oportunidades */}
-        <section className={s.oppSection}>
-          <div className={s.oppHead}>
-            <h2>Conheça as oportunidades da FACAPE</h2>
-            <div className={s.filters} role="tablist" aria-label="Filtrar oportunidades">
-              {FILTERS.map((f) => (
-                <button
-                  key={f.key}
-                  role="tab"
-                  aria-selected={filter === f.key}
-                  className={cx(s.filter, filter === f.key && s.filterActive)}
-                  onClick={() => setFilter(f.key)}
-                >
-                  {f.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className={s.oppGrid}>
-            {filtered.map((opp) => (
-              <article key={opp.id} className={s.oppCard} style={accent(opp.color)}>
-                <div className={s.oppTitleRow}>
-                  <h3>{opp.name}</h3>
-                  <Badge color={opp.badge}>{opp.category}</Badge>
-                </div>
-                <p className={s.oppFull}>{opp.fullName}</p>
-                <p className={s.oppDesc}>{opp.desc}</p>
-                <div className={s.tags}>
-                  {opp.skills.map((sk) => (
-                    <span key={sk} className={s.tag}>
-                      {sk}
-                    </span>
-                  ))}
-                </div>
-                <div className={s.oppAreas}>
-                  <Icon name="layers" size={13} />
-                  {opp.areas.join(" · ")}
-                </div>
-                <Button variant="outline" full size="sm" onClick={() => setModalId(opp.id)} className={s.oppBtn}>
-                  Conhecer oportunidade
-                </Button>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <div className={s.disclaimer}>
-          <Icon name="info" size={15} />
-          As informações deste protótipo são ilustrativas. Disponibilidade, requisitos e processos seletivos devem ser
-          confirmados com a FACAPE.
-        </div>
+      {/* key: reinicia a animação de entrada a cada troca de seção */}
+      <main key={active} className={s.main}>
+        <Section />
       </main>
 
       {/* ─── Bottom nav (mobile) ─────────────────────────── */}
       <nav className={s.bottomNav} aria-label="Menu do painel">
         {DASHBOARD_NAV.map((item) => (
-          <span key={item.id} className={cx(s.bottomItem, item.id === ACTIVE_NAV && s.bottomItemActive)}>
+          <Link
+            key={item.id}
+            to={item.path}
+            className={cx(s.bottomItem, item.id === active && s.bottomItemActive)}
+            aria-current={item.id === active ? "page" : undefined}
+          >
             <Icon name={item.icon} size={20} />
             {item.label}
-          </span>
+          </Link>
         ))}
       </nav>
-
-      {/* ─── Modal ───────────────────────────────────────── */}
-      <Modal open={!!modalOpp} onClose={() => setModalId(null)} labelledBy="opp-title">
-        {modalOpp && (
-          <div className={s.modal} style={accent(modalOpp.color)}>
-            <Badge color={modalOpp.badge}>{modalOpp.category}</Badge>
-            <h3 id="opp-title" className={s.modalTitle}>
-              {modalOpp.name}
-            </h3>
-            <p className={s.modalSub}>{modalOpp.fullName}</p>
-            <p className={s.modalText}>{modalOpp.detail}</p>
-            <div className={s.modalBlock}>
-              <span className={s.modalLabel}>O que você pode desenvolver</span>
-              <div className={s.tags}>
-                {modalOpp.skills.map((sk) => (
-                  <span key={sk} className={cx(s.tag, s.tagLg)}>
-                    {sk}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className={s.modalWarn}>As informações são ilustrativas. Confirme disponibilidade e requisitos com a FACAPE.</div>
-            <Button full onClick={() => setModalId(null)}>
-              Entendido
-            </Button>
-          </div>
-        )}
-      </Modal>
     </div>
   );
 }

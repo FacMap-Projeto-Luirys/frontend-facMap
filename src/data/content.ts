@@ -80,25 +80,81 @@ export type Opportunity = {
   desc: string;
   skills: string[];
   areas: string[];
+  /** Áreas da avaliação com as quais a oportunidade combina (usado para recomendar). */
+  fit: AreaId[];
   color: string;
   badge: BadgeColor;
   detail: string;
 };
 
 export const OPPORTUNITIES: Opportunity[] = [
-  { id: "nti", name: "NTI", fullName: "Núcleo de Tecnologia da Informação", category: "Estágio", type: "estagio", desc: "Apoio ao desenvolvimento e manutenção dos sistemas internos da FACAPE.", skills: ["Suporte técnico", "Redes", "Sistemas"], areas: ["Infraestrutura", "Desenvolvimento"], color: COLORS.brand, badge: "brand", detail: "O NTI da FACAPE é responsável pela infraestrutura tecnológica da instituição. Estudantes podem apoiar o desenvolvimento de soluções internas e suporte técnico." },
-  { id: "nte", name: "NTE", fullName: "Núcleo de Tecnologia Educacional", category: "Estágio", type: "estagio", desc: "Desenvolvimento de recursos tecnológicos para apoio ao ensino.", skills: ["Suporte Técnico", "Plataformas", "Educação Digital"], areas: ["Tecnologia", "Atendimento"], color: COLORS.cyan, badge: "cyan", detail: "O NTE trabalha com tecnologias aplicadas à educação. Estudantes participam do desenvolvimento de plataformas e materiais digitais." },
-  { id: "techhub", name: "TechHub", fullName: "Laboratório de Inovação TechHub", category: "Estágio", type: "estagio", desc: "Desenvolvimento prático de competências exigidas pelo mercado de tecnologia, com referência nas práticas da SantoDigital.", skills: ["IA", "Cloud", "Desenvolvimento Web"], areas: ["Desenvolvimento", "Inovação"], color: COLORS.green, badge: "green", detail: "O TechHub é um espaço de inovação onde estudantes desenvolvem projetos reais, praticam Git, colaboração e metodologias ágeis." },
-  { id: "inovajr", name: "Inova Jr.", fullName: "Empresa Júnior de Tecnologia", category: "Estágio", type: "estagio", desc: "Empresa júnior onde estudantes desenvolvem projetos de tecnologia e vivenciam a rotina de uma empresa.", skills: ["Desenvolvimento Web", "Projetos", "Design"], areas: ["Desenvolvimento", "Inovação"], color: COLORS.orange, badge: "orange", detail: "A Inova Jr. é a empresa júnior da FACAPE. Os estudantes atendem clientes reais e aprendem gestão na prática." },
-  { id: "fati", name: "FATI", fullName: "Projeto de Extensão FATI", category: "Extensão", type: "extensao", desc: "Projeto de extensão que promove aprendizado, inclusão digital e integração com pessoas da terceira idade.", skills: ["Ensino", "Inclusão Digital", "Impacto Social"], areas: ["Educação", "Extensão"], color: COLORS.brand, badge: "brand", detail: "O FATI leva educação em tecnologia para comunidades. Estudantes desenvolvem habilidades de ensino e comunicação." },
-  { id: "recom", name: "RECOM", fullName: "Rede de Computadores e Comunicação", category: "Extensão", type: "extensao", desc: "Recondicionamento de computadores para doação, unindo prática em hardware e impacto social.", skills: ["Hardware", "Manutenção", "Impacto Social"], areas: ["Hardware", "Extensão"], color: COLORS.cyan, badge: "cyan", detail: "O RECOM atua em redes. Estudantes aprendem configuração, segurança e gerenciamento de redes de computadores." },
-  { id: "agrolabs", name: "AGROLABS", fullName: "Laboratório de Agrotecnologia", category: "Extensão", type: "extensao", desc: "Pesquisa e desenvolvimento de soluções tecnológicas para desafios do agronegócio do Vale do São Francisco.", skills: ["IA", "IoT", "Cloud"], areas: ["Tecnologia", "Agronegócio"], color: COLORS.green, badge: "green", detail: "O AGROLABS desenvolve soluções para o agronegócio. Estudantes aplicam IoT e análise de dados em contextos rurais." },
+  { id: "nti", name: "NTI", fullName: "Núcleo de Tecnologia da Informação", category: "Estágio", type: "estagio", desc: "Apoio ao desenvolvimento e manutenção dos sistemas internos da FACAPE.", skills: ["Suporte técnico", "Redes", "Sistemas"], areas: ["Infraestrutura", "Desenvolvimento"], fit: ["infra", "dev", "sec"], color: COLORS.brand, badge: "brand", detail: "O NTI da FACAPE é responsável pela infraestrutura tecnológica da instituição. Estudantes podem apoiar o desenvolvimento de soluções internas e suporte técnico." },
+  { id: "nte", name: "NTE", fullName: "Núcleo de Tecnologia Educacional", category: "Estágio", type: "estagio", desc: "Desenvolvimento de recursos tecnológicos para apoio ao ensino.", skills: ["Suporte Técnico", "Plataformas", "Educação Digital"], areas: ["Tecnologia", "Atendimento"], fit: ["dev", "infra"], color: COLORS.cyan, badge: "cyan", detail: "O NTE trabalha com tecnologias aplicadas à educação. Estudantes participam do desenvolvimento de plataformas e materiais digitais." },
+  { id: "techhub", name: "TechHub", fullName: "Laboratório de Inovação TechHub", category: "Estágio", type: "estagio", desc: "Desenvolvimento prático de competências exigidas pelo mercado de tecnologia, com referência nas práticas da SantoDigital.", skills: ["IA", "Cloud", "Desenvolvimento Web"], areas: ["Desenvolvimento", "Inovação"], fit: ["dev", "data", "infra"], color: COLORS.green, badge: "green", detail: "O TechHub é um espaço de inovação onde estudantes desenvolvem projetos reais, praticam Git, colaboração e metodologias ágeis." },
+  { id: "inovajr", name: "Inova Jr.", fullName: "Empresa Júnior de Tecnologia", category: "Estágio", type: "estagio", desc: "Empresa júnior onde estudantes desenvolvem projetos de tecnologia e vivenciam a rotina de uma empresa.", skills: ["Desenvolvimento Web", "Projetos", "Design"], areas: ["Desenvolvimento", "Inovação"], fit: ["dev"], color: COLORS.orange, badge: "orange", detail: "A Inova Jr. é a empresa júnior da FACAPE. Os estudantes atendem clientes reais e aprendem gestão na prática." },
+  { id: "fati", name: "FATI", fullName: "Projeto de Extensão FATI", category: "Extensão", type: "extensao", desc: "Projeto de extensão que promove aprendizado, inclusão digital e integração com pessoas da terceira idade.", skills: ["Ensino", "Inclusão Digital", "Impacto Social"], areas: ["Educação", "Extensão"], fit: [], color: COLORS.brand, badge: "brand", detail: "O FATI leva educação em tecnologia para comunidades. Estudantes desenvolvem habilidades de ensino e comunicação." },
+  { id: "recom", name: "RECOM", fullName: "Rede de Computadores e Comunicação", category: "Extensão", type: "extensao", desc: "Recondicionamento de computadores para doação, unindo prática em hardware e impacto social.", skills: ["Hardware", "Manutenção", "Impacto Social"], areas: ["Hardware", "Extensão"], fit: ["infra", "sec"], color: COLORS.cyan, badge: "cyan", detail: "O RECOM atua em redes. Estudantes aprendem configuração, segurança e gerenciamento de redes de computadores." },
+  { id: "agrolabs", name: "AGROLABS", fullName: "Laboratório de Agrotecnologia", category: "Extensão", type: "extensao", desc: "Pesquisa e desenvolvimento de soluções tecnológicas para desafios do agronegócio do Vale do São Francisco.", skills: ["IA", "IoT", "Cloud"], areas: ["Tecnologia", "Agronegócio"], fit: ["data", "infra"], color: COLORS.green, badge: "green", detail: "O AGROLABS desenvolve soluções para o agronegócio. Estudantes aplicam IoT e análise de dados em contextos rurais." },
 ];
 
-export const DASHBOARD_NAV: { id: string; label: string; icon: IconName }[] = [
-  { id: "overview", label: "Início", icon: "home" },
-  { id: "trilha", label: "Trilha", icon: "layers" },
-  { id: "oportunidades", label: "Vagas", icon: "briefcase" },
-  { id: "disciplinas", label: "Disciplinas", icon: "book" },
-  { id: "vaga", label: "Analisar", icon: "external" },
+// ─── Painel: navegação ───────────────────────────────────────────────────────
+export type DashboardSection = "overview" | "trilha" | "oportunidades" | "disciplinas" | "vaga";
+
+export const DASHBOARD_NAV: { id: DashboardSection; label: string; icon: IconName; path: string }[] = [
+  { id: "overview", label: "Início", icon: "home", path: "/painel" },
+  { id: "trilha", label: "Trilha", icon: "layers", path: "/painel/trilha" },
+  { id: "oportunidades", label: "Vagas", icon: "briefcase", path: "/painel/vagas" },
+  { id: "disciplinas", label: "Disciplinas", icon: "book", path: "/painel/disciplinas" },
+  { id: "vaga", label: "Analisar", icon: "external", path: "/painel/analisar" },
 ];
+
+// ─── Painel: disciplinas ─────────────────────────────────────────────────────
+export type Discipline = { name: string; areas: AreaId[]; text: string };
+
+export const DISCIPLINES: Discipline[] = [
+  { name: "Algoritmos e Lógica de Programação", areas: ["dev", "data"], text: "Base do raciocínio usado para resolver problemas com código, em qualquer área." },
+  { name: "Estrutura de Dados", areas: ["dev", "data"], text: "Listas, filas, árvores e grafos: como organizar informações para o programa ser eficiente." },
+  { name: "Programação Orientada a Objetos", areas: ["dev"], text: "Organiza sistemas maiores em classes e objetos, como na maioria dos projetos do mercado." },
+  { name: "Engenharia de Software", areas: ["dev"], text: "Requisitos, testes, versionamento e metodologias ágeis para trabalhar em equipe." },
+  { name: "Desenvolvimento Web", areas: ["dev"], text: "HTML, CSS, JavaScript e APIs: a prática de criar sites e aplicações." },
+  { name: "Banco de Dados", areas: ["data", "dev"], text: "Modelagem e SQL, a base para guardar e consultar informações de qualquer sistema." },
+  { name: "Estatística e Probabilidade", areas: ["data"], text: "Média, variância e distribuições: o que você precisa para interpretar dados com segurança." },
+  { name: "Inteligência Artificial", areas: ["data"], text: "Introdução a aprendizado de máquina, classificação e previsão." },
+  { name: "Redes de Computadores", areas: ["infra", "sec"], text: "Como os dados trafegam (TCP/IP, HTTP, DNS), base para infraestrutura e segurança." },
+  { name: "Sistemas Operacionais", areas: ["infra", "sec"], text: "Processos, memória, permissões e arquivos, o que sustenta servidores e a nuvem." },
+  { name: "Segurança da Informação", areas: ["sec"], text: "Criptografia, autenticação, vulnerabilidades e boas práticas de proteção." },
+  { name: "Sistemas Distribuídos e Computação em Nuvem", areas: ["infra", "dev"], text: "Como sistemas rodam em vários servidores e serviços de nuvem ao mesmo tempo." },
+];
+
+// ─── Painel: analisar vaga ───────────────────────────────────────────────────
+/** Palavras-chave procuradas no texto da vaga (sem acentos, minúsculas). */
+export const JOB_SKILLS: { label: string; area: AreaId; keywords: string[] }[] = [
+  { label: "Git e GitHub", area: "dev", keywords: ["git", "github", "gitlab", "versionamento"] },
+  { label: "HTML e CSS", area: "dev", keywords: ["html", "css", "sass", "tailwind"] },
+  { label: "JavaScript / TypeScript", area: "dev", keywords: ["javascript", "typescript", "js", "ts"] },
+  { label: "React / Front-end", area: "dev", keywords: ["react", "vue", "angular", "front-end", "frontend", "next.js", "nextjs"] },
+  { label: "Back-end e APIs", area: "dev", keywords: ["api", "apis", "rest", "back-end", "backend", "node", "node.js", "fastapi", "django", "spring", "laravel"] },
+  { label: "Java / C# / PHP", area: "dev", keywords: ["java", "c#", ".net", "php", "kotlin"] },
+  { label: "Mobile", area: "dev", keywords: ["mobile", "android", "ios", "flutter", "react native"] },
+  { label: "Testes", area: "dev", keywords: ["teste", "testes", "jest", "tdd", "qa"] },
+  { label: "SQL e Banco de Dados", area: "data", keywords: ["sql", "mysql", "postgresql", "postgres", "banco de dados", "oracle", "mongodb"] },
+  { label: "Python", area: "data", keywords: ["python", "pandas", "numpy", "jupyter"] },
+  { label: "Excel / Planilhas", area: "data", keywords: ["excel", "planilha", "planilhas", "google sheets"] },
+  { label: "BI e Dashboards", area: "data", keywords: ["power bi", "powerbi", "tableau", "bi", "dashboard", "dashboards", "looker"] },
+  { label: "Estatística e Análise", area: "data", keywords: ["estatistica", "analise de dados", "analytics", "indicadores", "kpi", "kpis"] },
+  { label: "Machine Learning / IA", area: "data", keywords: ["machine learning", "ia", "inteligencia artificial", "scikit-learn", "modelos preditivos", "llm"] },
+  { label: "Segurança da Informação", area: "sec", keywords: ["seguranca", "seguranca da informacao", "ciberseguranca", "cybersecurity", "lgpd"] },
+  { label: "Pentest e Vulnerabilidades", area: "sec", keywords: ["pentest", "vulnerabilidade", "vulnerabilidades", "owasp", "ethical hacking"] },
+  { label: "Monitoramento e Resposta", area: "sec", keywords: ["siem", "soc", "firewall", "incidentes", "antivirus", "ids"] },
+  { label: "Criptografia e Acesso", area: "sec", keywords: ["criptografia", "autenticacao", "iam", "controle de acesso", "mfa"] },
+  { label: "Linux e Terminal", area: "infra", keywords: ["linux", "terminal", "bash", "shell", "ubuntu"] },
+  { label: "Redes", area: "infra", keywords: ["redes", "rede", "tcp/ip", "dns", "dhcp", "roteadores", "switches", "vpn"] },
+  { label: "Cloud", area: "infra", keywords: ["cloud", "nuvem", "aws", "azure", "gcp", "google cloud"] },
+  { label: "Docker e DevOps", area: "infra", keywords: ["docker", "kubernetes", "devops", "ci/cd", "terraform", "pipeline"] },
+  { label: "Suporte e Infraestrutura", area: "infra", keywords: ["suporte", "infraestrutura", "servidores", "servidor", "hardware", "windows server", "help desk"] },
+];
+
+export const JOB_EXAMPLE = `Estágio em Desenvolvimento Web
+Buscamos estudante de Sistemas de Informação para apoiar o time de produto.
+Requisitos: conhecimentos em HTML, CSS e JavaScript; noções de React; versionamento com Git.
+Diferenciais: consumo de APIs REST, SQL básico e vontade de aprender sobre testes.`;

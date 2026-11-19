@@ -1,4 +1,4 @@
-import { useEffect, useState, type AnchorHTMLAttributes, type MouseEvent } from "react";
+import { useEffect, useSyncExternalStore, type AnchorHTMLAttributes, type MouseEvent } from "react";
 
 /**
  * Roteador mínimo baseado em hash (#/rota).
@@ -21,26 +21,43 @@ function readPath(): string {
   return raw || ROUTES.home;
 }
 
+const listeners = new Set<() => void>();
+
+function notify() {
+  for (const listener of listeners) listener();
+}
+
+if (typeof window !== "undefined") {
+  window.addEventListener("hashchange", notify);
+  window.addEventListener("popstate", notify);
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
 export function navigate(to: string, options: { replace?: boolean } = {}) {
+  const target = `#${to}`;
   if (options.replace) {
-    window.history.replaceState(null, "", `#${to}`);
-    window.dispatchEvent(new HashChangeEvent("hashchange"));
+    window.history.replaceState(null, "", target);
+    notify();
+  } else if (window.location.hash === target) {
+    notify();
   } else {
     window.location.hash = to;
+    notify();
   }
 }
 
 export function usePath(): string {
-  const [path, setPath] = useState(readPath);
+  const path = useSyncExternalStore(subscribe, readPath, () => ROUTES.home);
 
   useEffect(() => {
-    const onChange = () => {
-      setPath(readPath());
-      window.scrollTo({ top: 0, behavior: "auto" });
-    };
-    window.addEventListener("hashchange", onChange);
-    return () => window.removeEventListener("hashchange", onChange);
-  }, []);
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [path]);
 
   return path;
 }

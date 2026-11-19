@@ -34,9 +34,17 @@
   font-size: 14px;
   font-weight: 600;
   color: var(--text-light);
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.sideItem:hover {
+  background: var(--bg);
+  color: var(--ink);
 }
 
-.sideItemActive {
+.sideItemActive,
+.sideItemActive:hover {
   background: var(--brand-muted);
   color: var(--brand);
 }
@@ -495,6 +503,390 @@
   margin-top: 2px;
 }
 
+/* ─── Elementos compartilhados entre as seções ──────────── */
+.seeAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand);
+}
+.seeAll:hover {
+  text-decoration: underline;
+}
+
+.matchTag {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--brand);
+  background: var(--brand-muted);
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border);
+  background: #fff;
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.cardText {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-mid);
+}
+
+.topPick {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+/* Atalhos (Início) */
+.shortcuts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.shortcut {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-light);
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.shortcut:hover {
+  border-color: var(--brand-border);
+  transform: translateY(-2px);
+}
+.shortcutIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--brand);
+  background: var(--brand-muted);
+}
+.shortcutText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+.shortcutText strong {
+  font-size: 14px;
+  color: var(--ink);
+}
+
+/* Linha do tempo do PDI (Trilha) */
+.timeline {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+.timelineItem {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  padding-bottom: 18px;
+}
+.timelineItem:last-child {
+  padding-bottom: 0;
+}
+.timelineItem:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 32px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--border-soft);
+}
+.timelineDone:not(:last-child)::before {
+  background: var(--accent);
+}
+.timelineCheck {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  background: #fff;
+  border: 2px solid color-mix(in srgb, var(--accent) 45%, white);
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+.timelineCheck:hover {
+  transform: scale(1.06);
+}
+.timelineDone .timelineCheck {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.timelineCurrent .timelineCheck {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 15%, white);
+}
+.timelineBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding-top: 4px;
+}
+.timelineBody strong {
+  font-size: 15px;
+  color: var(--ink);
+}
+.timelineDone .timelineBody strong {
+  color: var(--text-light);
+  text-decoration: line-through;
+}
+.timelineNow,
+.timelineOk {
+  margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.timelineNow {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, white);
+}
+.timelineOk {
+  color: var(--green);
+  background: var(--green-light);
+}
+
+.whyList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.whyList li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text-mid);
+}
+.whyIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--brand);
+  background: var(--brand-muted);
+}
+
+/* Destaque (disciplina-chave / veredito) */
+.highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  border-left: 4px solid var(--accent);
+}
+.highlightIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, white);
+}
+.highlightLabel {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+.highlightTitle {
+  margin: 2px 0 4px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Disciplinas */
+.discGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.discCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+.discCard h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.discCard p {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-mid);
+}
+.discTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.discTop .matchTag {
+  margin-top: 0;
+}
+
+/* Analisar vaga */
+.textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 140px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: #fff;
+  transition: border-color 0.2s;
+}
+.textarea:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  border-left: 4px solid var(--accent);
+}
+.verdictScore {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--accent) 10%, white);
+  color: var(--accent);
+}
+.verdictScore strong {
+  font-size: 26px;
+  line-height: 1;
+}
+.verdictScore span {
+  font-size: 11px;
+  font-weight: 600;
+}
+.verdictArea {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+.verdictArea strong {
+  color: var(--ink);
+}
+
+.skillList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.skillList li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.skillList .affinityIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+}
+.skillName {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.skillStatus {
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.skillHas {
+  color: var(--green);
+  background: var(--green-light);
+}
+.skillPath {
+  color: var(--brand);
+  background: var(--brand-muted);
+}
+.skillGap {
+  color: var(--orange);
+  background: var(--orange-light);
+}
+
 /* ─── Bottom nav (mobile) ───────────────────────────────── */
 .bottomNav {
   display: none;
@@ -562,6 +954,9 @@
 @media (max-width: 1180px) {
   .topGrid {
     grid-template-columns: 1fr;
+  }
+  .shortcuts {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -648,6 +1043,16 @@
   }
   .oppGrid {
     grid-template-columns: 1fr;
+  }
+  .shortcuts {
+    grid-template-columns: 1fr;
+  }
+  .verdict {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .filters {
+    flex-wrap: wrap;
   }
   .modal {
     padding-right: 0;

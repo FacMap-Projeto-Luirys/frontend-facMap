@@ -20,7 +20,7 @@ function GoToLanding() {
 function Redirect({ to }: { to: string }) {
   useEffect(() => {
     navigate(to, { replace: true });
-  }, [to]);
+  });
   return null;
 }
 
@@ -32,6 +32,11 @@ function Routes() {
 
   const requireAuth = (page: ReactNode) => (user ? page : <Redirect to={ROUTES.login} />);
   const guestOnly = (page: ReactNode) => (user ? <Redirect to={userHome} /> : page);
+
+  // Painel e suas seções: #/painel, #/painel/trilha, #/painel/vagas, ...
+  if (path === ROUTES.dashboard || path.startsWith(`${ROUTES.dashboard}/`)) {
+    return requireAuth(completed && result ? <Dashboard path={path} /> : <Redirect to={ROUTES.profile} />);
+  }
 
   switch (path) {
     case ROUTES.home:
@@ -46,8 +51,6 @@ function Routes() {
       return requireAuth(profileComplete ? <AreasStep /> : <Redirect to={ROUTES.profile} />);
     case ROUTES.result:
       return requireAuth(area ? <ResultStep /> : <Redirect to={ROUTES.areas} />);
-    case ROUTES.dashboard:
-      return requireAuth(completed && result ? <Dashboard /> : <Redirect to={ROUTES.profile} />);
     default:
       return <Redirect to={ROUTES.home} />;
   }
