@@ -29,7 +29,7 @@ export function Disciplines() {
 
   return (
     <>
-      <SectionHead title="Disciplinas" subtitle="As matérias do curso de SI que mais ajudam no caminho que você escolheu." />
+      <SectionHead title="Disciplinas" subtitle="As matérias do curso de Ciência da Computação que mais ajudam no caminho que você escolheu." />
 
       {result && (
         <section className={cx(s.card, s.highlight)} style={accent(result.scores[0]?.color ?? COLORS.brand)}>

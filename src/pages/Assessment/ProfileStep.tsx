@@ -14,7 +14,7 @@ export function ProfileStep() {
     <AssessmentLayout
       step={1}
       title="Vamos entender seu momento"
-      subtitle="Não existe resposta certa. Queremos saber em que ponto do curso de SI da FACAPE você está, não testar tecnologia."
+      subtitle="Não existe resposta certa. Queremos saber em que ponto do curso de Ciência da Computação da FACAPE você está, não testar tecnologia."
       actions={
         <>
           <Button variant="ghost" to={ROUTES.home}>

@@ -41,7 +41,7 @@ export function ResultStep() {
     <AssessmentLayout
       step={3}
       title={result ? title : "Calculando seu resultado"}
-      subtitle="Com base nas suas respostas, estas são as áreas com maior afinidade com o seu perfil dentro do curso de SI."
+      subtitle="Com base nas suas respostas, estas são as áreas com maior afinidade com o seu perfil dentro do curso de Ciência da Computação."
       actions={
         <>
           <Button variant="ghost" to={ROUTES.profile}>
