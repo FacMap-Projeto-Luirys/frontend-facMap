@@ -13,7 +13,7 @@ export type BadgeColor = "brand" | "cyan" | "green" | "orange" | "navy" | "rose"
 
 // ─── Landing / boas-vindas ───────────────────────────────────────────────────
 export const BENEFITS: { icon: IconName; title: string; text: string; color: string }[] = [
-  { icon: "user", title: "Feito para o seu curso", text: "Pensado para alunos de Sistemas de Informação da FACAPE", color: COLORS.brand },
+  { icon: "user", title: "Feito para o seu curso", text: "Pensado para alunos de Ciência da Computação da FACAPE", color: COLORS.brand },
   { icon: "shield", title: "Sem pré-requisitos", text: "Parte do que você já viu nos primeiros períodos", color: COLORS.cyan },
   { icon: "briefcase", title: "Ligado à faculdade", text: "Conecta seu plano aos estágios e projetos da FACAPE", color: COLORS.green },
 ];

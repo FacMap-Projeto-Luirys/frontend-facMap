@@ -17,7 +17,7 @@ export function AuthLayout({ title, subtitle, children, footer }: Props) {
           <h2>
             Orientação para <span>alunos da FACAPE</span>
           </h2>
-          <p>Para alunos de Sistemas de Informação da FACAPE: seus interesses, sua rotina e o que você vê nas aulas viram um plano ligado aos estágios da faculdade.</p>
+          <p>Para alunos de Ciência da Computação da FACAPE: seus interesses, sua rotina e o que você vê nas aulas viram um plano ligado aos estágios da faculdade.</p>
           <ul className={s.brandList}>
             {BENEFITS.map((b) => (
               <li key={b.title} style={accent(b.color)}>

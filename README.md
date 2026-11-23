@@ -1,6 +1,6 @@
 # FacMap
 
-Orientação de carreira em TI para estudantes de Sistemas de Informação da FACAPE.
+Orientação de carreira em TI para estudantes de Ciência da Computação da FACAPE.
 Versão web (desktop + responsiva) do protótipo `interface-inova-o`.
 
 **Stack:** React 19 · TypeScript · CSS Modules · Vite. API em `backend-facMap` (FastAPI).

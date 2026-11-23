@@ -42,7 +42,7 @@ export function Signup() {
   return (
     <AuthLayout
       title="Crie sua conta"
-      subtitle="Para alunos de Sistemas de Informação da FACAPE. A conta leva menos de um minuto e a avaliação, cerca de 5."
+      subtitle="Para alunos de Ciência da Computação da FACAPE. A conta leva menos de um minuto e a avaliação, cerca de 5."
       footer={
         <>
           Já tem uma conta? <Link to={ROUTES.login}>Entrar</Link>
