@@ -172,6 +172,26 @@
   .fm-ok { color: #1f6b3a; font-weight: 500; } .fm-warn { color: #9a5b13; font-weight: 500; }
   .fm-mini__body.fm-code { display: block; }
   .hero--centred .hero__lead { color: var(--ink); }
+  /* the hero's headline: heavier, its promise in the accent over a marker stroke */
+  .hero--centred h1 { font-weight: 600; letter-spacing: var(--display-tracking-xl); }
+  .hero--centred h1 em { font-style: normal; color: var(--accent); padding-inline: .04em;
+    background: linear-gradient(transparent 64%, color-mix(in oklab, var(--accent) 16%, transparent) 64% 92%, transparent 92%);
+    -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+  /* the header's logo: the mark on an accent tile, "Map" in the accent, pulled left of the page's line */
+  .nav .nav__logo { gap: 10px; font-size: 26px; font-weight: 600; letter-spacing: -0.03em; transition: opacity var(--dur) var(--ease); }
+  .nav .nav__logo:hover { opacity: .85; }
+  .nav .brand-tile { display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 11px; background: var(--accent);
+    box-shadow: 0 6px 16px -6px color-mix(in oklab, var(--accent) 70%, transparent); }
+  .nav .brand-tile .mark { width: 20px; height: 20px; background: var(--accent-ink); }
+  .nav .brand-accent { color: var(--accent); }
+  @media (min-width: 1024px) { .nav .nav__logo { margin-left: -40px; } }
+  @media (min-width: 640px) and (max-width: 1023px) { .nav .nav__logo { margin-left: -24px; } }
+  @media (max-width: 639px) {
+    .nav .nav__logo { font-size: clamp(18px, 5.4vw, 22px); gap: 8px; }
+    .nav .brand-tile { width: 32px; height: 32px; border-radius: 9px; }
+    .nav .brand-tile .mark { width: 17px; height: 17px; }
+  }
   .close--word .close__word { line-height: 1.12; }
   @media (max-width: 639px) {
     #duvidas .stack-4 > p, #duvidas .faq__item:nth-child(n+5) { display: none; }
@@ -197,7 +217,7 @@
 <header class="nav nav--centre">
   <div class="wrap nav__bar">
     <a class="skip-link" href="#top">Pular para o conteúdo</a>
-    <a class="nav__logo" href="#top"><span class="mark" data-mark="stack" aria-hidden="true"></span>FacMap</a>
+    <a class="nav__logo" href="#top"><span class="brand-tile" aria-hidden="true"><span class="mark" data-mark="stack"></span></span><span>Fac<span class="brand-accent">Map</span></span></a>
     <nav class="nav__links" aria-label="Principal">
       <div class="nav__item"><a class="nav__link" href="#avaliacao">Avaliação</a></div>
       <div class="nav__item"><a class="nav__link" href="#oportunidades">Estágios</a></div>
@@ -219,8 +239,8 @@
     <div class="wrap"><div class="hero-text">
       <div class="hero__c">
         <a class="pill" href="#avaliacao"><span>Alunos de Ciência da Computação</span><span class="muted">FACAPE</span></a>
-        <h1 id="hero-h">Orientação para alunos da FACAPE</h1>
-        <p class="hero__lead">Em 5 minutos você descobre qual caminho do curso de Ciência da Computação combina com você e quais dos 7 núcleos, estágios e projetos da faculdade procurar.</p>
+        <h1 id="hero-h">Do primeiro período ao <em>primeiro estágio</em></h1>
+        <p class="hero__lead">Em 5 minutos você descobre qual caminho do curso de Ciência da Computação combina com você e quais dos 7 núcleos, estágios e projetos da FACAPE procurar.</p>
         <div class="btn-row"><a class="btn btn--primary" href="app.html#/cadastro">Começar avaliação</a><a class="btn btn--secondary" href="#avaliacao">Ver as três etapas</a></div>
       </div>
       <div class="hero__window" role="img" aria-label="A avaliação do FacMap: um cenário sobre o sistema de matrícula da FACAPE e o resultado, com maior afinidade em desenvolvimento de software">
