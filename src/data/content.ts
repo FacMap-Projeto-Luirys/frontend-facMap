@@ -110,26 +110,33 @@ export const DASHBOARD_NAV: { id: DashboardSection; label: string; icon: IconNam
 ];
 
 // ─── Painel: cursos ──────────────────────────────────────────────────────────
-export type CourseTopic = "logica" | "dados";
-export type CoursePlatform = "youtube" | "udemy";
+export type CourseTopic = "logica" | "web" | "dados" | "ml" | "seguranca" | "infra";
 
 export const COURSE_TOPICS: {
   id: CourseTopic;
   title: string;
+  /** Rótulo curto, usado no filtro. */
+  short: string;
   text: string;
   icon: IconName;
   color: string;
   /** Áreas da avaliação para as quais o tema é indicado. Vazio = base para todas. */
   areas: AreaId[];
 }[] = [
-  { id: "logica", title: "Lógica de programação", text: "A base de qualquer área. Comece por aqui.", icon: "code", color: COLORS.brand, areas: [] },
-  { id: "dados", title: "Dados com Python", text: "Para quem quer seguir em Dados e Machine Learning.", icon: "chart", color: COLORS.cyan, areas: ["data"] },
+  { id: "logica", title: "Lógica de programação", short: "Lógica", text: "A base de qualquer área. Comece por aqui.", icon: "compass", color: COLORS.navy, areas: [] },
+  { id: "web", title: "Desenvolvimento web", short: "Web", text: "Sites e aplicações: HTML, CSS, JavaScript e APIs.", icon: "code", color: COLORS.brand, areas: ["dev"] },
+  { id: "dados", title: "Dados", short: "Dados", text: "Python, SQL e estatística para analisar dados.", icon: "chart", color: COLORS.cyan, areas: ["data"] },
+  { id: "ml", title: "Machine Learning", short: "Machine Learning", text: "Modelos que aprendem com os dados e fazem previsões.", icon: "layers", color: COLORS.green, areas: ["data"] },
+  { id: "seguranca", title: "Cibersegurança", short: "Segurança", text: "Proteger sistemas e redes, e testar falhas de forma ética.", icon: "shield", color: COLORS.rose, areas: ["sec"] },
+  { id: "infra", title: "Infraestrutura, redes e cloud", short: "Infra e cloud", text: "Linux, redes, contêineres e serviços em nuvem.", icon: "server", color: COLORS.orange, areas: ["infra"] },
 ];
 
-export const COURSE_PLATFORMS: Record<CoursePlatform, { label: string; cta: string }> = {
+export const COURSE_PLATFORMS = {
   youtube: { label: "YouTube", cta: "Ver playlist no YouTube" },
   udemy: { label: "Udemy", cta: "Ver curso na Udemy" },
-};
+} satisfies Record<string, { label: string; cta: string }>;
+
+export type CoursePlatform = keyof typeof COURSE_PLATFORMS;
 
 export type Course = {
   id: string;
@@ -138,6 +145,8 @@ export type Course = {
   author: string;
   platform: CoursePlatform;
   paid: boolean;
+  /** Idioma das aulas, quando não é português. */
+  lang?: "en";
   desc: string;
   /** No YouTube, o link da playlist; nas outras plataformas, a página do curso. */
   url: string;
