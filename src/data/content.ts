@@ -98,14 +98,55 @@ export const OPPORTUNITIES: Opportunity[] = [
 ];
 
 // ─── Painel: navegação ───────────────────────────────────────────────────────
-export type DashboardSection = "overview" | "trilha" | "oportunidades" | "disciplinas" | "vaga";
+export type DashboardSection = "overview" | "trilha" | "cursos" | "oportunidades" | "disciplinas" | "vaga";
 
 export const DASHBOARD_NAV: { id: DashboardSection; label: string; icon: IconName; path: string }[] = [
   { id: "overview", label: "Início", icon: "home", path: "/painel" },
   { id: "trilha", label: "Trilha", icon: "layers", path: "/painel/trilha" },
+  { id: "cursos", label: "Cursos", icon: "play", path: "/painel/cursos" },
   { id: "oportunidades", label: "Vagas", icon: "briefcase", path: "/painel/vagas" },
   { id: "disciplinas", label: "Disciplinas", icon: "book", path: "/painel/disciplinas" },
   { id: "vaga", label: "Analisar", icon: "external", path: "/painel/analisar" },
+];
+
+// ─── Painel: cursos ──────────────────────────────────────────────────────────
+export type CourseTopic = "logica" | "dados";
+export type CoursePlatform = "youtube" | "udemy";
+
+export const COURSE_TOPICS: {
+  id: CourseTopic;
+  title: string;
+  text: string;
+  icon: IconName;
+  color: string;
+  /** Áreas da avaliação para as quais o tema é indicado. Vazio = base para todas. */
+  areas: AreaId[];
+}[] = [
+  { id: "logica", title: "Lógica de programação", text: "A base de qualquer área. Comece por aqui.", icon: "code", color: COLORS.brand, areas: [] },
+  { id: "dados", title: "Dados com Python", text: "Para quem quer seguir em Dados e Machine Learning.", icon: "chart", color: COLORS.cyan, areas: ["data"] },
+];
+
+export const COURSE_PLATFORMS: Record<CoursePlatform, { label: string; cta: string }> = {
+  youtube: { label: "YouTube", cta: "Ver playlist no YouTube" },
+  udemy: { label: "Udemy", cta: "Ver curso na Udemy" },
+};
+
+export type Course = {
+  id: string;
+  topic: CourseTopic;
+  title: string;
+  author: string;
+  platform: CoursePlatform;
+  paid: boolean;
+  desc: string;
+  /** No YouTube, o link da playlist; nas outras plataformas, a página do curso. */
+  url: string;
+};
+
+export const COURSES: Course[] = [
+  { id: "guanabara-algoritmos", topic: "logica", title: "Curso de Algoritmos", author: "Gustavo Guanabara · Curso em Vídeo", platform: "youtube", paid: false, desc: "Aulas curtas e descontraídas, do primeiro algoritmo até estruturas de repetição, procedimentos e funções.", url: "https://www.youtube.com/playlist?list=PLHz_AreHm4dmSj0MHol_aoNYCSGFqvfXV" },
+  { id: "nelio-algoritmos", topic: "logica", title: "Algoritmos e Lógica de Programação: o curso completo", author: "Nelio Alves", platform: "udemy", paid: true, desc: "Começa com Portugol no VisualG e depois passa por C, C++, Python, C# e Java, com mais de 50 exercícios corrigidos.", url: "https://www.udemy.com/course/curso-algoritmos-logica-de-programacao/" },
+  { id: "teo-python", topic: "dados", title: "Introdução à Programação com Python", author: "Téo Me Why", platform: "youtube", paid: false, desc: "Python do zero com um cientista de dados. É o pré-requisito que o canal indica antes dos cursos de dados, como o de Pandas.", url: "https://www.youtube.com/playlist?list=PLvlkVRRKOYFRXdquucikNbwYeFzzzYIGb" },
 ];
 
 // ─── Painel: disciplinas ─────────────────────────────────────────────────────

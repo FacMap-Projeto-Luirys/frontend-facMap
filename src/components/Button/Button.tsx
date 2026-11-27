@@ -14,12 +14,23 @@ type CommonProps = {
   children: ReactNode;
 };
 
-type ButtonProps = CommonProps & Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof CommonProps> & { to?: undefined };
-type LinkButtonProps = CommonProps & { to: string; onClick?: () => void };
+type ButtonProps = CommonProps &
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof CommonProps> & { to?: undefined; href?: undefined };
+type LinkButtonProps = CommonProps & { to: string; href?: undefined; onClick?: () => void };
+/** Link para fora do app: abre em outra aba. */
+type ExternalButtonProps = CommonProps & { href: string; to?: undefined };
 
-export function Button(props: ButtonProps | LinkButtonProps) {
+export function Button(props: ButtonProps | LinkButtonProps | ExternalButtonProps) {
   const { variant = "primary", size = "md", full = false, className, children } = props;
   const classes = cx(s.btn, s[variant], s[size], full && s.full, className);
+
+  if (props.href !== undefined) {
+    return (
+      <a href={props.href} target="_blank" rel="noopener noreferrer" className={classes}>
+        {children}
+      </a>
+    );
+  }
 
   if (props.to !== undefined) {
     return (
@@ -29,7 +40,7 @@ export function Button(props: ButtonProps | LinkButtonProps) {
     );
   }
 
-  const { variant: _v, size: _s, full: _f, className: _c, children: _ch, to: _t, type = "button", ...rest } = props;
+  const { variant: _v, size: _s, full: _f, className: _c, children: _ch, to: _t, href: _h, type = "button", ...rest } = props;
   return (
     <button type={type} className={classes} {...rest}>
       {children}

@@ -94,6 +94,7 @@ export function Overview() {
               <strong>{n.label}</strong>
               <span>
                 {n.id === "trilha" && "Seu PDI semana a semana"}
+                {n.id === "cursos" && "Gratuitos e pagos, por tema"}
                 {n.id === "oportunidades" && "Estágios e extensão da FACAPE"}
                 {n.id === "disciplinas" && "Matérias ligadas ao seu perfil"}
                 {n.id === "vaga" && "Cole uma vaga e veja se combina"}

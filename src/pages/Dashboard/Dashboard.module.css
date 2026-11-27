@@ -555,12 +555,16 @@
 }
 
 /* Atalhos (Início) */
+/* flex-wrap: a última linha se estica e não deixa buraco (5 atalhos = 3 + 2) */
 .shortcuts {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  --cols: 3;
+  display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 }
 .shortcut {
+  flex: 1 1 calc((100% - (var(--cols) - 1) * 12px) / var(--cols));
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -740,6 +744,60 @@
   margin: 2px 0 4px;
   font-size: 20px;
   font-weight: 600;
+  color: var(--ink);
+}
+
+/* Cursos */
+.courseGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.courseGroup + .courseGroup {
+  margin-top: 12px;
+}
+.courseGroupHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.courseGroupHead h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.courseGroupHead p {
+  font-size: 13px;
+  color: var(--text-light);
+}
+.courseGroupTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+.courseGroupTitle .matchTag {
+  margin-top: 0;
+}
+.courseMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.coursePlatform {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-mid);
+}
+.courseTitle {
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
   color: var(--ink);
 }
 
@@ -956,7 +1014,7 @@
     grid-template-columns: 1fr;
   }
   .shortcuts {
-    grid-template-columns: repeat(2, 1fr);
+    --cols: 2;
   }
 }
 
@@ -996,11 +1054,13 @@
     box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.07);
   }
   .bottomItem {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    padding: 4px 8px;
+    padding: 4px 2px;
     font-size: 10px;
     font-weight: 600;
     color: var(--text-light);
@@ -1045,7 +1105,7 @@
     grid-template-columns: 1fr;
   }
   .shortcuts {
-    grid-template-columns: 1fr;
+    --cols: 1;
   }
   .verdict {
     flex-direction: column;

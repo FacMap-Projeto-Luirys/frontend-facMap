@@ -6,6 +6,7 @@ import { useAssessment } from "../../context/AssessmentContext";
 import { DASHBOARD_NAV, type DashboardSection } from "../../data/content";
 import { Link, navigate, ROUTES } from "../../router";
 import { cx } from "../../utils/accent";
+import { Courses } from "./sections/Courses";
 import { Disciplines } from "./sections/Disciplines";
 import { JobAnalyzer } from "./sections/JobAnalyzer";
 import { Opportunities } from "./sections/Opportunities";
@@ -21,6 +22,7 @@ function sectionFromPath(path: string): DashboardSection {
 const SECTIONS: Record<DashboardSection, ComponentType> = {
   overview: Overview,
   trilha: Trail,
+  cursos: Courses,
   oportunidades: Opportunities,
   disciplinas: Disciplines,
   vaga: JobAnalyzer,
