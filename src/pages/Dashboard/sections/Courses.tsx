@@ -25,10 +25,7 @@ function CourseCard({ course }: { course: Course }) {
           <Icon name="play" size={14} />
           {platform.label}
         </span>
-        <span className={s.courseBadges}>
-          {course.lang === "en" && <Badge color="navy">Em inglês</Badge>}
-          <Badge color={course.paid ? "orange" : "green"}>{course.paid ? "Pago" : "Gratuito"}</Badge>
-        </span>
+        <Badge color={course.paid ? "orange" : "green"}>{course.paid ? "Pago" : "Gratuito"}</Badge>
       </div>
       <h3 className={s.courseTitle}>{course.title}</h3>
       <p className={s.oppFull}>{course.author}</p>

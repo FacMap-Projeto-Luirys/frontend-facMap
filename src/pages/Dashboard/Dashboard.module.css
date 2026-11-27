@@ -786,12 +786,6 @@
   justify-content: space-between;
   gap: 8px;
 }
-.courseBadges {
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 6px;
-}
 .courseTopics {
   flex-wrap: wrap;
   margin-top: -6px;
