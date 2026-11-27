@@ -1,7 +1,17 @@
 import { readJSON, removeKey, writeJSON } from "./storage";
 
-/** URL do backend. Configure com VITE_API_URL no arquivo .env do frontend. */
-export const API_URL = (import.meta.env.VITE_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
+/**
+ * URL do backend. Configure com VITE_API_URL no .env do frontend e, na Vercel, em
+ * Settings → Environment Variables. O valor é embutido no build: depois de mudar, faça um redeploy.
+ */
+export const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/$/, "");
+
+if (import.meta.env.PROD && !import.meta.env.VITE_API_URL) {
+  console.error(
+    "[FacMap] VITE_API_URL não foi definida no build de produção: o app está chamando http://localhost:8000. " +
+      "Cadastre a variável na Vercel e faça um redeploy.",
+  );
+}
 
 const TOKEN_KEY = "facmap:token";
 
