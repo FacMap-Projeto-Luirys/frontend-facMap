@@ -36,6 +36,8 @@ export function TextField({ label, icon, error, hint, type = "text", onValueChan
         {isPassword && (
           <button
             type="button"
+            // Fora da ordem do Tab: da senha o foco vai direto para o próximo campo.
+            tabIndex={-1}
             className={s.toggle}
             onClick={() => setShowPassword((v) => !v)}
             aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
