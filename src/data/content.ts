@@ -134,6 +134,15 @@ export const COURSE_TOPICS: {
 export const COURSE_PLATFORMS = {
   youtube: { label: "YouTube", cta: "Ver playlist no YouTube" },
   udemy: { label: "Udemy", cta: "Ver curso na Udemy" },
+  coursera: { label: "Coursera", cta: "Ver curso no Coursera" },
+  odin: { label: "The Odin Project", cta: "Ver curso" },
+  khan: { label: "Khan Academy", cta: "Ver curso na Khan Academy" },
+  kaggle: { label: "Kaggle", cta: "Ver curso no Kaggle" },
+  google: { label: "Google", cta: "Ver curso do Google" },
+  netacad: { label: "Cisco NetAcad", cta: "Ver curso na Cisco" },
+  portswigger: { label: "PortSwigger", cta: "Ver curso na PortSwigger" },
+  aws: { label: "AWS Skill Builder", cta: "Ver curso na AWS" },
+  mslearn: { label: "Microsoft Learn", cta: "Ver curso na Microsoft" },
 } satisfies Record<string, { label: string; cta: string }>;
 
 export type CoursePlatform = keyof typeof COURSE_PLATFORMS;
@@ -155,7 +164,36 @@ export type Course = {
 export const COURSES: Course[] = [
   { id: "guanabara-algoritmos", topic: "logica", title: "Curso de Algoritmos", author: "Gustavo Guanabara · Curso em Vídeo", platform: "youtube", paid: false, desc: "Aulas curtas e descontraídas, do primeiro algoritmo até estruturas de repetição, procedimentos e funções.", url: "https://www.youtube.com/playlist?list=PLHz_AreHm4dmSj0MHol_aoNYCSGFqvfXV" },
   { id: "nelio-algoritmos", topic: "logica", title: "Algoritmos e Lógica de Programação: o curso completo", author: "Nelio Alves", platform: "udemy", paid: true, desc: "Começa com Portugol no VisualG e depois passa por C, C++, Python, C# e Java, com mais de 50 exercícios corrigidos.", url: "https://www.udemy.com/course/curso-algoritmos-logica-de-programacao/" },
+
+  // Desenvolvimento web
+  { id: "cev-html", topic: "web", title: "Curso de HTML5 e CSS3 (módulo 1 de 5)", author: "Gustavo Guanabara · Curso em Vídeo", platform: "youtube", paid: false, desc: "Criação de sites com HTML e CSS atuais, com exercícios, desafios e material em PDF. Os outros módulos estão no mesmo canal.", url: "https://www.youtube.com/playlist?list=PLHz_AreHm4dkZ9-atkcmcBaMZdmLHft8n" },
+  { id: "cev-js", topic: "web", title: "Curso de JavaScript e ECMAScript para iniciantes", author: "Gustavo Guanabara · Curso em Vídeo", platform: "youtube", paid: false, desc: "Seis módulos, com apoio do Google: comandos básicos, DOM, condições, repetições e próximos passos na linguagem.", url: "https://www.youtube.com/playlist?list=PLHz_AreHm4dlsK3Nr9GVvXCbpQyHQl1o1" },
+  { id: "odin", topic: "web", title: "The Odin Project", author: "Comunidade The Odin Project", platform: "odin", paid: false, lang: "en", desc: "Currículo full stack aberto: fundamentos de HTML, CSS, JavaScript e Git, depois JavaScript e Node.js, sempre com projetos.", url: "https://www.theodinproject.com/" },
+  { id: "cod3r-web", topic: "web", title: "Curso Web Moderno Completo com JavaScript + Projetos", author: "Leonardo Leitão · Cod3r", platform: "udemy", paid: true, desc: "Do HTML e CSS ao JavaScript moderno, Node.js, React e Vue, passando por bancos de dados, com vários projetos práticos.", url: "https://www.udemy.com/course/curso-web/" },
+
+  // Dados
   { id: "teo-python", topic: "dados", title: "Introdução à Programação com Python", author: "Téo Me Why", platform: "youtube", paid: false, desc: "Python do zero com um cientista de dados. É o pré-requisito que o canal indica antes dos cursos de dados, como o de Pandas.", url: "https://www.youtube.com/playlist?list=PLvlkVRRKOYFRXdquucikNbwYeFzzzYIGb" },
+  { id: "cev-mysql", topic: "dados", title: "Curso de Banco de Dados MySQL", author: "Gustavo Guanabara · Curso em Vídeo", platform: "youtube", paid: false, desc: "O que é um banco de dados e como criar, alterar e consultar tabelas com SQL no MySQL.", url: "https://www.youtube.com/playlist?list=PLHz_AreHm4dkBs-795Dsgvau_ekxg8g1r" },
+  { id: "khan-estatistica", topic: "dados", title: "Estatística e probabilidade", author: "Khan Academy", platform: "khan", paid: false, desc: "A estatística que a análise de dados usa: gráficos, médias, dispersão, probabilidade e inferência, com exercícios.", url: "https://pt.khanacademy.org/math/statistics-probability" },
+  { id: "amaral-cientista", topic: "dados", title: "Formação Cientista de Dados com Python", author: "Fernando Amaral", platform: "udemy", paid: true, desc: "Formação ampla em ciência de dados com Python, da estatística e visualização até modelos de machine learning.", url: "https://www.udemy.com/course/formacao-cientista-de-dados-com-python/" },
+
+  // Machine Learning
+  { id: "google-mlcc", topic: "ml", title: "Curso intensivo de machine learning", author: "Google", platform: "google", paid: false, desc: "Introdução prática do Google: regressão, classificação, preparo dos dados e redes neurais, com exercícios interativos.", url: "https://developers.google.com/machine-learning/crash-course?hl=pt-br" },
+  { id: "kaggle-ml", topic: "ml", title: "Intro to Machine Learning", author: "Kaggle Learn", platform: "kaggle", paid: false, lang: "en", desc: "Microcurso para montar os primeiros modelos em Python (árvore de decisão e random forest), direto no navegador.", url: "https://www.kaggle.com/learn/intro-to-machine-learning" },
+  { id: "jones-ml", topic: "ml", title: "Machine Learning e Data Science com Python de A a Z", author: "Jones Granatyr · IA Expert Academy", platform: "udemy", paid: true, desc: "Os principais algoritmos de classificação, regressão e agrupamento, explicados do zero e aplicados com Python.", url: "https://www.udemy.com/course/machine-learning-e-data-science-com-python-y/" },
+  { id: "ng-ml", topic: "ml", title: "Machine Learning Specialization", author: "Andrew Ng · DeepLearning.AI e Stanford", platform: "coursera", paid: true, lang: "en", desc: "Três cursos para iniciantes: regressão, classificação, redes neurais, árvores de decisão e aprendizado não supervisionado.", url: "https://www.coursera.org/specializations/machine-learning-introduction" },
+
+  // Cibersegurança
+  { id: "cisco-cyber", topic: "seguranca", title: "Introduction to Cybersecurity", author: "Cisco Networking Academy", platform: "netacad", paid: false, lang: "en", desc: "Primeiro contato com a área: ameaças e ataques comuns, como proteger seus dados e as carreiras em segurança.", url: "https://www.netacad.com/courses/introduction-to-cybersecurity" },
+  { id: "mb-cero", topic: "seguranca", title: "CERO: Curso de Engenharia Reversa Online", author: "Fernando Mercês · Mente Binária", platform: "youtube", paid: false, desc: "Como os programas funcionam por dentro: executáveis, assembly e depuradores. Base para análise de malware.", url: "https://www.youtube.com/playlist?list=PLIfZMtpPYFP6zLKlnyAeWY1I85VpyshAA" },
+  { id: "portswigger", topic: "seguranca", title: "Web Security Academy", author: "PortSwigger", platform: "portswigger", paid: false, lang: "en", desc: "Laboratórios práticos sobre as principais falhas de aplicações web, como SQL injection e XSS.", url: "https://portswigger.net/web-security" },
+  { id: "google-cyber", topic: "seguranca", title: "Certificado Profissional de Segurança Cibernética do Google", author: "Google · Coursera", platform: "coursera", paid: true, desc: "Formação para iniciantes: fundamentos de segurança, redes, Linux, SQL, Python e ferramentas de monitoramento.", url: "https://www.coursera.org/professional-certificates/google-cybersecurity" },
+
+  // Infraestrutura, redes e cloud
+  { id: "aws-cpe", topic: "infra", title: "AWS Cloud Practitioner Essentials", author: "Amazon Web Services", platform: "aws", paid: false, desc: "Conceitos de nuvem e os principais serviços da AWS: computação, armazenamento, redes, segurança e preços.", url: "https://aws.amazon.com/pt/training/digital/aws-cloud-practitioner-essentials/" },
+  { id: "az-900", topic: "infra", title: "AZ-900: introdução à infraestrutura de nuvem", author: "Microsoft", platform: "mslearn", paid: false, desc: "Conceitos de nuvem e os serviços básicos do Azure, preparando para a certificação AZ-900.", url: "https://learn.microsoft.com/pt-br/training/courses/az-900t00" },
+  { id: "cisco-net", topic: "infra", title: "Networking Basics", author: "Cisco Networking Academy", platform: "netacad", paid: false, lang: "en", desc: "Como as redes funcionam: endereçamento IP, protocolos, equipamentos e montagem de uma rede simples.", url: "https://www.netacad.com/courses/networking-basics" },
+  { id: "battisti-docker", topic: "infra", title: "Docker para Desenvolvedores (com Docker Swarm e Kubernetes)", author: "Matheus Battisti · Hora de Codar", platform: "udemy", paid: true, desc: "Contêineres com Docker do básico ao deploy, com Docker Compose, Docker Swarm e introdução ao Kubernetes.", url: "https://www.udemy.com/course/docker-para-desenvolvedores-com-docker-swarm-e-kubernetes/" },
 ];
 
 // ─── Painel: disciplinas ─────────────────────────────────────────────────────
